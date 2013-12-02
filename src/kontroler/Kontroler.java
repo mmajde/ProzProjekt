@@ -29,20 +29,21 @@ public class Kontroler implements ActionListener{
 		widok = new Widok();
 		model = new Model();
 		
+		// wyrzucic to stad
 		blockingQueue = new ArrayBlockingQueue<KeyEvent>(2);
 	}
 
 	/* Metoda tworząca pole bitwy */
 	public void stworzPoleBitwy() {
-		model.stworzBohatera(new Wspolrzedne(270, 530));
 		widok.stworzPoleBitwy();
-		widok.dodajSluchaczaPrzyciskow(new TAdapter());
 	}
 	
 	/* Metoda uruchamiajca timer */
-	public void uruchomTimer() {
+	public void organizujTimer() {
 		timer = new Timer(5, this);
 		timer.start();
+		// jakies wyjatki jak te wartosci sa nullami
+		timer.addActionListener(new Lacznik(widok, model.getStrateg()));
 	}
 
 	@Override
@@ -58,64 +59,10 @@ public class Kontroler implements ActionListener{
 			System.out.println("Blad. Pole bitwy jest nullem.");
 		}
 		
-		for(KeyEvent keyEvent : blockingQueue) {
-			blockingQueue.poll();
-			model.dzialaj(keyEvent.getKeyCode() + 0);
-		}
+//		for(KeyEvent keyEvent : blockingQueue) {
+//			blockingQueue.poll();
+//			model.dzialaj(keyEvent.getKeyCode() + 0);
+//		}
 	}
-    
-	 //wyrzucic do oddzielnej klasy w pakiecie widok!!
- private class TAdapter extends KeyAdapter {
-	        
-     public void keyPressed(KeyEvent keyEvent) {
-//    	 System.out.println("Przycisk wcisniety.");
-    	 
-    	blockingQueue.offer(keyEvent);
-   	  
-//	   	 if(keyEvent.getKeyCode() == KeyEvent.VK_UP) {
-//	   		 SterujBohaterem.ustawPrzesuniecieWGore(model.wezStatekBohatera(), -1d);
-//	   	 }
-	   	 
-	   	 
-//	   	 if(keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
-//	   		SterujBohaterem.ustawPrzesuniecieWDol(model.wezStatekBohatera(), 1d);
-//	   	 }
-//	   	 
-//	   	 if(keyEvent.getKeyCode() == KeyEvent.VK_LEFT) {
-//	   		SterujBohaterem.ustawPrzesuniecieWLewo(model.wezStatekBohatera(), -1d);
-//	   	 }
-//	   	 
-//	   	 if(keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
-//	   		SterujBohaterem.ustawPrzesuniecieWPrawo(model.wezStatekBohatera(), 1d);
-//	   	 }
-     }
      
-     public void keyReleased(KeyEvent keyEvent) {
-//    	 System.out.println("Przycisk puszczony.");
-
-    	 model.dzialaj(keyEvent.getKeyCode() + 200);
-//			try {
-//				blockingQueue.put(keyEvent);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//	   	 if(keyEvent.getKeyCode() == KeyEvent.VK_UP) {
-//	   		SterujBohaterem.ustawPrzesuniecieWGore(model.wezStatekBohatera(), 0d);
-//	   	 }
-//	   	 
-//	   	 if(keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
-//	   		SterujBohaterem.ustawPrzesuniecieWDol(model.wezStatekBohatera(), 0d);
-//	   	 }
-//	   	 
-//	   	 if(keyEvent.getKeyCode() == KeyEvent.VK_LEFT) {
-//	   		SterujBohaterem.ustawPrzesuniecieWLewo(model.wezStatekBohatera(), 0d);
-//	   	 }
-//	   	 
-//	   	 if(keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
-//	   		SterujBohaterem.ustawPrzesuniecieWPrawo(model.wezStatekBohatera(), 0d);
-//	   	 }
-     }
- }
- 
 }

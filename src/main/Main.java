@@ -12,7 +12,8 @@ public class Main {
 		//Gdzies okreslic wyjatki, jezeli programista wywola nie po kolei metody
 		Kontroler kontroler = new Kontroler();
 		kontroler.stworzPoleBitwy();
-		kontroler.uruchomTimer();
+		kontroler.organizujTimer();
+		
 		
 		// zastanowic sie czy nie odpalic kontrolera i on niech organizuje sam prace
 	}

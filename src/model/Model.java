@@ -13,11 +13,10 @@ public class Model {
 
 	private StatekBohatera statekBohatera;
 	private List<StatekWroga> statkiWroga;
-	
-	private Kontekst kontekst;
+	private Strateg strateg;
 	
 	public Model() {
-		statekBohatera = new StatekBohatera(new Wspolrzedne(0d, 0d));
+		stworzBohatera(new Wspolrzedne(270d, 530d));
 		organizujStrategie();
 	}
 	
@@ -29,21 +28,14 @@ public class Model {
 		return statekBohatera;
 	}
 	
-	/*wyrzucic zarzadzanie strategia w inne miejsce */
-	public void organizujStrategie() {
-		kontekst = new Kontekst();
-		kontekst.organizujStrategie();
+	public Strateg getStrateg() {
+		return strateg;
 	}
 	
-	public void dzialaj(int klucz) {
-		Strategia strategia = kontekst.pobierzStrategie(klucz);
-		if(strategia != null) {
-			strategia.dzialanie(this);
-			return;
-		}
-		
-		// zastanowic sie czy rzucac wyjatek jezeli nie ma strategii
-		System.out.println("Brak danej strategii");
+	/* wyrzucic zarzadzanie strategia w inne miejsce */
+	public void organizujStrategie() {
+		strateg = new Strateg(this);
+		strateg.organizujStrategie();
 	}
 
 

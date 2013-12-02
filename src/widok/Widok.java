@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -22,6 +23,7 @@ public class Widok extends JFrame {
 	private final Dimension ROZMIAR = new Dimension(600, 600);
 	
 	private PoleBitwy poleBitwy;
+	private SluchaczZdarzenKlawiatury sluchaczZdarzenKlawiatury;
 //	private Timer timer;
 	
 	public BlockingQueue<KeyEvent> kolejkaBlokujaca = new ArrayBlockingQueue<KeyEvent>(1);
@@ -40,7 +42,7 @@ public class Widok extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		
-		//addKeyListener(new TAdapter());
+		dodajSluchaczaZdarzenKlawiatury(new SluchaczZdarzenKlawiatury());
 		
 		setVisible(true);
 		
@@ -65,8 +67,14 @@ public class Widok extends JFrame {
 	}
 	
 	/* Metoda dodająca słuchacza przyciskanych klawiszy */
-	public void dodajSluchaczaPrzyciskow(KeyAdapter keyAdapter) {
-		addKeyListener(keyAdapter);
+	public void dodajSluchaczaZdarzenKlawiatury(SluchaczZdarzenKlawiatury sluchaczZdarzenKlawiatury) {
+		this.sluchaczZdarzenKlawiatury = sluchaczZdarzenKlawiatury;
+		addKeyListener(sluchaczZdarzenKlawiatury);
+	}
+
+	/* Metoda zwracająca słuchacza przyciskanych klawiszy */
+	public SluchaczZdarzenKlawiatury getSluchaczaZdarzenKlawiatury() {
+		return sluchaczZdarzenKlawiatury;
 	}
 
 
