@@ -11,7 +11,7 @@ import widok.Widok;
 import widok.SluchaczZdarzenKlawiatury;
 
 /* Klasa nasluchująca timera i wywołująca metody z modelu dla zdarzeń z widoku */
-public class Lacznik implements ActionListener {
+public class KontrolerZdarzenBohatera implements ActionListener {
 
 	private final int rozmiarKolejki = 3;
 	private BlockingQueue<StanPrzycisku> kolejkaBlokujaca;
@@ -19,7 +19,7 @@ public class Lacznik implements ActionListener {
 	private Widok widok;
 	private Strateg strateg;
 	
-	public Lacznik(Widok widok, Strateg strateg) {
+	public KontrolerZdarzenBohatera(Widok widok, Strateg strateg) {
 		this.widok = widok;
 		this.strateg = strateg;
 		kolejkaBlokujaca = przypiszKolejkeBlokujaca();

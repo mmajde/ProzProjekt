@@ -9,7 +9,7 @@ import uzytkowe.StanPrzycisku;
 
 public class SluchaczZdarzenKlawiatury extends KeyAdapter  {
     
-	private final int rozmiarKolejki = 3;
+	private final int rozmiarKolejki = 5;
 	private BlockingQueue<StanPrzycisku> kolejkaBlokujaca;
 	
 	public SluchaczZdarzenKlawiatury() {
@@ -21,7 +21,11 @@ public class SluchaczZdarzenKlawiatury extends KeyAdapter  {
 	}
 
 	public void keyReleased(KeyEvent keyEvent) {
-		kolejkaBlokujaca.offer(new StanPrzycisku(keyEvent, false));
+		try {
+			kolejkaBlokujaca.put(new StanPrzycisku(keyEvent, false));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public BlockingQueue<StanPrzycisku> getKolejkaBlokujaca() {

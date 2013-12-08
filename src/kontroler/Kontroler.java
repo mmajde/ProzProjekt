@@ -2,7 +2,6 @@ package kontroler;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -11,7 +10,6 @@ import javax.swing.Timer;
 
 import model.Model;
 import model.SterujBohaterem;
-import uzytkowe.Wspolrzedne;
 import widok.Widok;
 
 public class Kontroler implements ActionListener{
@@ -39,20 +37,27 @@ public class Kontroler implements ActionListener{
 	}
 	
 	/* Metoda uruchamiajca timer */
-	public void organizujTimer() {
+	public synchronized void organizujTimer() {
 		timer = new Timer(5, this);
-		timer.start();
 		// jakies wyjatki jak te wartosci sa nullami
-		timer.addActionListener(new Lacznik(widok, model.getStrateg()));
+		try {
+			this.wait(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		timer.addActionListener(new KontrolerZdarzenBohatera(widok, model.getStrateg()));
+		timer.addActionListener(new KontrolerWroga(widok.getPoleBitwy()));
+		timer.addActionListener(new KontrolerZderzen(model));
+		timer.start();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		SterujBohaterem.przesunBohatera(model.wezStatekBohatera());
+		SterujBohaterem.przesunBohatera(model.getStatekBohatera());
 		try {
 			// ty wyjatek jezeli nie stowrzylismy wczesniej bohatera
-			widok.rysujPoleBitwy(model.wezStatekBohatera());
+			widok.rysujPoleBitwy(model.getStatekBohatera());
 			
 			// potem zrobic wlasna klase wyjatkow
 		} catch (Exception e1) {

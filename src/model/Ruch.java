@@ -6,9 +6,14 @@ import uzytkowe.Wspolrzedne;
 /* Klasa posiadająca metody statyczne poruszające obiektami w grze */
 public class Ruch {
 	
-	/* Metoda pobierająca wspolrzędne i przesunięcie.
-	 * @returns nowe współrzędne 
-	 */ 
+	/**
+	 * @param wspolrzedne
+	 * @param przesuniecie
+	 * @return
+	 */
+	
+	// ZASTANOWIC SIE CZY NIE PODAWAC TUTAJ OBIEKTY IMPLEMENTUJACEGO WSPOLRZEDNE!!
+	// i na nim operowac ustawiając mu nowe wspolrzedne
 	public static Wspolrzedne przesun(Wspolrzedne wspolrzedne, Przesuniecie przesuniecie) {
 		
 		double nowyX = wspolrzedne.getX() + przesuniecie.getPrawo() + przesuniecie.getLewo();

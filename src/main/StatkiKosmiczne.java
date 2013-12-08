@@ -2,7 +2,7 @@ package main;
 
 import kontroler.Kontroler;
 
-public class Main {
+public class StatkiKosmiczne {
 
 	/**
 	 * @param args

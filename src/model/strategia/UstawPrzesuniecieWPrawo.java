@@ -13,7 +13,7 @@ public class UstawPrzesuniecieWPrawo implements Strategia {
 	
 	@Override
 	public void dzialanie(Model model) {
-		SterujBohaterem.ustawPrzesuniecieWPrawo(model.wezStatekBohatera(), przesuniecie);
+		SterujBohaterem.ustawPrzesuniecieWPrawo(model.getStatekBohatera(), przesuniecie);
 	}
 
 }

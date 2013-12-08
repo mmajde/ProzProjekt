@@ -20,11 +20,7 @@ public class Model {
 		organizujStrategie();
 	}
 	
-	public void stworzBohatera(Wspolrzedne wspolrzedne) {
-		statekBohatera = new StatekBohatera(wspolrzedne);
-	}
-	
-	public StatekBohatera wezStatekBohatera() {
+	public StatekBohatera getStatekBohatera() {
 		return statekBohatera;
 	}
 	
@@ -38,5 +34,8 @@ public class Model {
 		strateg.organizujStrategie();
 	}
 
-
+	private void stworzBohatera(Wspolrzedne wspolrzedne) {
+		statekBohatera = new StatekBohatera(wspolrzedne);
+	}
+	
 }

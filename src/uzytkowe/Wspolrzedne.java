@@ -26,4 +26,11 @@ public class Wspolrzedne {
 		this.y = y;
 	}	
 	
+	public String toString() {
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append(x).append(" ");
+		stringBuffer.append(y);
+		
+		return stringBuffer.toString();
+	}
 }
