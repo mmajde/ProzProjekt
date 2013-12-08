@@ -1,7 +1,7 @@
 package model.strategia;
 
-import model.Model;
-import model.SterujBohaterem;
+import kontroler.SterowanieBohaterem;
+import statek.StatekBohatera;
 
 public class UstawPrzesuniecieWPrawo implements Strategia {
 
@@ -12,8 +12,8 @@ public class UstawPrzesuniecieWPrawo implements Strategia {
 	}
 	
 	@Override
-	public void dzialanie(Model model) {
-		SterujBohaterem.ustawPrzesuniecieWPrawo(model.getStatekBohatera(), przesuniecie);
+	public void dzialanie(StatekBohatera statekBohatera) {
+		SterowanieBohaterem.ustawPrzesuniecieWPrawo(statekBohatera, przesuniecie);
 	}
 
 }

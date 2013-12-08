@@ -59,11 +59,11 @@ public class Widok extends JFrame {
 	
 	/* Metoda rysująca statek bohatera */
 	/* Pomyśleć czy nie zrobić z tego DTO */
-	public void rysujPoleBitwy(StatekBohatera statekBohatera) throws Exception {
+	public void rysujPoleBitwy() throws Exception {
 		// tymczasowe ustawienie bohatera;
 		if(poleBitwy == null)
 			throw new Exception();
-		poleBitwy.rysujPoleBitwy(statekBohatera);
+		poleBitwy.rysujPoleBitwy();
 	}
 	
 	/* Metoda dodająca słuchacza przyciskanych klawiszy */

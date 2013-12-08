@@ -1,12 +1,15 @@
-package model;
+package kontroler;
 
+import model.Ruch;
 import statek.StatekBohatera;
 import uzytkowe.Przesuniecie;
 import uzytkowe.Wspolrzedne;
 
-// zrobic z tego zwykla klase z metodami i wstawic do modelu a kontorler niech sobie tworzy obiekt
-/* Klasa sterująca bohaterem */
-public class SterujBohaterem {
+
+/**
+ *	Klasa udostępniające metody  do sterowania bohaterem
+ */
+public class SterowanieBohaterem {
 
 	// zastanowic się nad wyjatkami jezeli ktos poda dodatnia gore
 	public static void ustawPrzesuniecieWGore(StatekBohatera statekBohatera, double gora) {

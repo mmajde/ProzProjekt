@@ -1,9 +1,9 @@
 package model.strategia;
 
-import model.Model;
+import statek.StatekBohatera;
 
 public interface Strategia {
 
 	/* Strategie będą wywoływane na rzecz konkretnego modelu */
-	public void dzialanie(Model model);
+	public void dzialanie(StatekBohatera statekBohatera);
 }

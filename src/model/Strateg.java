@@ -14,10 +14,10 @@ import model.strategia.UstawPrzesuniecieWPrawo;
 public class Strateg {
 	
 	private Map<Integer, Strategia> mapaStrategii;
-	private Model model;
+	private Bohater bohater;
 	
-	public Strateg(Model model) {
-		this.model = model;
+	public Strateg(Bohater bohater) {
+		this.bohater = bohater;
 		mapaStrategii = new HashMap<Integer, Strategia>(0);
 	}
 	
@@ -46,7 +46,7 @@ public class Strateg {
 	public void dzialaj(int klucz) {
 		Strategia strategia = pobierzStrategie(klucz);
 		if(strategia != null) {
-			strategia.dzialanie(model);
+			strategia.dzialanie(bohater.getStatekBohatera());
 			return;
 		}
 		

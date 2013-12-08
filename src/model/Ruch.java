@@ -12,6 +12,7 @@ public class Ruch {
 	 * @return
 	 */
 	
+	// to powinno byc w kontrolerze!!!!
 	// ZASTANOWIC SIE CZY NIE PODAWAC TUTAJ OBIEKTY IMPLEMENTUJACEGO WSPOLRZEDNE!!
 	// i na nim operowac ustawiając mu nowe wspolrzedne
 	public static Wspolrzedne przesun(Wspolrzedne wspolrzedne, Przesuniecie przesuniecie) {

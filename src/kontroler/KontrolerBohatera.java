@@ -5,25 +5,28 @@ import java.awt.event.ActionListener;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import model.Bohater;
 import model.Strateg;
 import uzytkowe.StanPrzycisku;
 import widok.Widok;
 import widok.SluchaczZdarzenKlawiatury;
 
 /* Klasa nasluchująca timera i wywołująca metody z modelu dla zdarzeń z widoku */
-public class KontrolerZdarzenBohatera implements ActionListener {
+public class KontrolerBohatera implements ActionListener {
 
-	private final int rozmiarKolejki = 3;
 	private BlockingQueue<StanPrzycisku> kolejkaBlokujaca;
 	
+	private Bohater bohater;
 	private Widok widok;
+	
 	private Strateg strateg;
 	
-	public KontrolerZdarzenBohatera(Widok widok, Strateg strateg) {
+	public KontrolerBohatera(Widok widok, Bohater bohater) {
 		this.widok = widok;
-		this.strateg = strateg;
+		this.bohater = bohater;
 		kolejkaBlokujaca = przypiszKolejkeBlokujaca();
-		
+		this.strateg = new Strateg(bohater);
+		strateg.organizujStrategie();
 	}
 	
 	@Override
@@ -33,6 +36,17 @@ public class KontrolerZdarzenBohatera implements ActionListener {
 			// pobierać te liczby z modelu
 			int klucz = stanPrzycisku.getZdarzenieKlawisza().getKeyCode() + (stanPrzycisku.isWcisniety() == true ? 0 : 200);
 			strateg.dzialaj(klucz);
+		}
+		
+		SterowanieBohaterem.przesunBohatera(bohater.getStatekBohatera());
+		
+		try {
+			// ty wyjatek jezeli nie stowrzylismy wczesniej bohatera
+			// plus wyjatek jezeli nie ma pola bitwy
+			widok.getPoleBitwy().ustawStatekBohatera(bohater.getStatekBohatera());
+			// potem zrobic wlasna klase wyjatkow
+		} catch (Exception e1) {
+			System.out.println("Blad. Pole bitwy jest nullem.");
 		}
 	}
 

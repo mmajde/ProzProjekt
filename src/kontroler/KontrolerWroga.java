@@ -4,21 +4,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.Timer;
-
 import model.Wrog;
 import statek.StatekWroga;
-import widok.PoleBitwy;
+import widok.Widok;
 
 public class KontrolerWroga implements ActionListener {
 
 	private Wrog wrog;
 	private int maxLiczbaWrogow;
-	private PoleBitwy poleBitwy;
+	private Widok widok;
 	
-	public KontrolerWroga(PoleBitwy poleBitwy) {
-		this.poleBitwy = poleBitwy;
-		wrog = new Wrog();
+	public KontrolerWroga(Widok widok, Wrog wrog) {
+		this.widok = widok;
+		this.wrog = wrog;
 		maxLiczbaWrogow = wrog.getMaxLiczbaWrogow();
 	}
 
@@ -31,7 +29,8 @@ public class KontrolerWroga implements ActionListener {
 			wrog.stworzWrogow();
 		}
 		List<StatekWroga> statkiWroga = wrog.getStatkiWroga();
-		poleBitwy.ustawWrogieStatki(statkiWroga);
+		// jakiś wyjątek jeżeli pole Bitwy jest nullem
+		widok.getPoleBitwy().ustawWrogieStatki(statkiWroga);
 		wrog.przesunStatkiWroga();
 	}
 	

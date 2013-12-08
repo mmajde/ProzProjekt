@@ -31,8 +31,6 @@ public class PoleBitwy extends JPanel {
 		
     	ustawIkoneBohatera();
     	ustawIkoneWroga();
-    	
-    	statekBohatera = new StatekBohatera(new Wspolrzedne(270, 530));
 
     	setVisible(true);
 	}
@@ -51,8 +49,11 @@ public class PoleBitwy extends JPanel {
 		this.statkiWroga = statkiWroga;
 	}
 
-	public void rysujPoleBitwy(StatekBohatera statekBohatera) {
+	public void ustawStatekBohatera(StatekBohatera statekBohatera) {
 		this.statekBohatera = statekBohatera;
+	}
+
+	public void rysujPoleBitwy() {
 		repaint();
 	}
 	

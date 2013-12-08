@@ -3,14 +3,16 @@ package kontroler;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import statek.StatekBohatera;
-
-import model.Model;
+import model.Bohater;
+import model.Wrog;
 
 public class KontrolerZderzen implements ActionListener {
 
-	public KontrolerZderzen(Model model) {
-		StatekBohatera statekBohatera = model.getStatekBohatera();
+	private Bohater bohater;
+	private Wrog wrog;
+	
+	public KontrolerZderzen(Bohater bohater, Wrog wrog) {
+		bohater.getGranice();
 	}
 	
 	@Override

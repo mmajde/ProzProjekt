@@ -51,7 +51,6 @@ public class Wrog {
 	}
 
 	public void przesunStatkiWroga() {
-		Random rand = new Random();
 		for(StatekWroga statekWroga : statkiWroga) {
 			statekWroga.setWspolrzedne(Ruch.przesun(statekWroga.getWspolrzedne(), statekWroga.getPrzesuniecie()));
 		}
