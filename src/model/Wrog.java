@@ -35,7 +35,14 @@ public class Wrog {
 			
 			statkiWroga.add(statekWroga);
 		}
-		
+	}
+	
+	public void ustawStatki() {
+		czyscMape();
+		if(aktualnaLiczbaWrogow < getMaxLiczbaWrogow()) {
+			stworzWrogow();
+		}
+		przesunStatkiWroga();	
 	}
 	
 	public int getAktualnaLiczbaWrogow() {

@@ -62,13 +62,16 @@ public class PoleBitwy extends JPanel {
 		
 		Graphics2D g2d = (Graphics2D)g;
 		
-		g2d.drawImage(ikonaBohatera, (int)statekBohatera.getX(), (int)statekBohatera.getY(), this);
+		if(statekBohatera != null) {
+			g2d.drawImage(ikonaBohatera, (int)statekBohatera.getX(), (int)statekBohatera.getY(), this);
+		}
 		
-		//if(statkiWroga != null) {
+		// jakis wyjatek?
+		if(statkiWroga != null) {
 			for(StatekWroga statekWroga : statkiWroga) {
 				g2d.drawImage(ikonaWroga, (int)statekWroga.getX(), (int)statekWroga.getY(), this);
 			}
-		//}
+		}
 	}
 	
 }

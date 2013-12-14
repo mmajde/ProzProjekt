@@ -13,6 +13,8 @@ import model.strategia.UstawPrzesuniecieWPrawo;
 /* Klasa przechowująca strategie */
 public class Strateg {
 	
+	private final int enemy = 500;
+	
 	private Map<Integer, Strategia> mapaStrategii;
 	private Bohater bohater;
 	
@@ -37,6 +39,7 @@ public class Strateg {
 		dodajStrategie(KeyEvent.VK_DOWN + 200, new UstawPrzesuniecieWDol(0d));
 		dodajStrategie(KeyEvent.VK_RIGHT + 200, new UstawPrzesuniecieWPrawo(0d));
 		dodajStrategie(KeyEvent.VK_LEFT + 200, new UstawPrzesuniecieWLewo(0d));
+
 	}
 	
 	private void dodajStrategie(Integer klucz, Strategia strategia) {

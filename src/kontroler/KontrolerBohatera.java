@@ -31,6 +31,7 @@ public class KontrolerBohatera implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		
 		for(StanPrzycisku stanPrzycisku : kolejkaBlokujaca) {
 			kolejkaBlokujaca.poll();
 			// pobierać te liczby z modelu
