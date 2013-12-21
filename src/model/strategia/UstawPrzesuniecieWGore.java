@@ -1,6 +1,6 @@
 package model.strategia;
 
-import kontroler.SterowanieBohaterem;
+import model.SterowanieBohaterem;
 import statek.StatekBohatera;
 
 public class UstawPrzesuniecieWGore implements Strategia {

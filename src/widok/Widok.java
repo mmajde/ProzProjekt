@@ -24,9 +24,6 @@ public class Widok extends JFrame {
 	public boolean lewoWcisniete = false;
 	
 	public Widok() {
-		//add(new Tlo());
-		//poleBitwy = new PoleBitwy();
-		//add(poleBitwy);
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(ROZMIAR);
@@ -35,11 +32,10 @@ public class Widok extends JFrame {
 		setLocationRelativeTo(null);
 		
 		dodajSluchaczaZdarzenKlawiatury(new SluchaczZdarzenKlawiatury());
+		stworzPoleBitwy();
 		
 		setVisible(true);
-		
-//		timer = new Timer(500, this);
-//		timer.start();
+
 	}
 	
 	public void dodajPanel(JPanel panel) {
@@ -49,7 +45,6 @@ public class Widok extends JFrame {
 	/* Metoda tworząca pole bitwy */
 	public void stworzPoleBitwy() {
 		poleBitwy = new PoleBitwy();
-		//timer.addActionListener(poleBitwy);
 		add(poleBitwy);
 	}
 	
@@ -73,7 +68,7 @@ public class Widok extends JFrame {
 	}
 
 	/* Metoda zwracająca słuchacza przyciskanych klawiszy */
-	public SluchaczZdarzenKlawiatury getSluchaczaZdarzenKlawiatury() {
+	public SluchaczZdarzenKlawiatury getSluchaczZdarzenKlawiatury() {
 		return sluchaczZdarzenKlawiatury;
 	}
 

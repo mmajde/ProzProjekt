@@ -7,10 +7,11 @@ import javax.swing.ImageIcon;
 import statek.StatekBohatera;
 import uzytkowe.Wspolrzedne;
 
-public class Bohater {
+public class Bohater extends ObiektGry {
 	
 	private final String SCIEZKA_IKONY_BOHATERA = "//home//majde//java_workspace//Statki_kosmiczne//images//bohaternext1.png";
 	
+	// to wyrzucic do StatekBohatera
 	private StatekBohatera statekBohatera;
 	private Image ikonaBohatera;
 	

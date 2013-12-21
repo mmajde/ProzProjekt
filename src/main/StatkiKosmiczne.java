@@ -11,9 +11,7 @@ public class StatkiKosmiczne {
 		
 		//Gdzies okreslic wyjatki, jezeli programista wywola nie po kolei metody
 		Kontroler kontroler = new Kontroler();
-		kontroler.stworzPoleBitwy();
-//		kontroler.organizujTimer();
-		kontroler.run();
+		kontroler.uruchom();
 		
 		
 		// zastanowic sie czy nie odpalic kontrolera i on niech organizuje sam prace

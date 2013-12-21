@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 
 import statek.StatekBohatera;
 import statek.StatekWroga;
-import uzytkowe.Wspolrzedne;
 
 public class PoleBitwy extends JPanel {
 
@@ -28,6 +27,7 @@ public class PoleBitwy extends JPanel {
 	/* Konstruktor inicjalizujący główne parametry sterujące polem bitwy */
 	public PoleBitwy() {
 		setBackground(Color.BLACK);
+		setDoubleBuffered(true);
 		
     	ustawIkoneBohatera();
     	ustawIkoneWroga();
@@ -67,11 +67,19 @@ public class PoleBitwy extends JPanel {
 		}
 		
 		// jakis wyjatek?
+//		List<StatekWroga> statki = new ArrayList<StatekWroga>();
+//		statki.addAll(this.statkiWroga);
+//		if(statki != null) {
+//			for(StatekWroga statekWroga : statki) {
+//				g2d.drawImage(ikonaWroga, (int)statekWroga.getX(), (int)statekWroga.getY(), this);
+//			}
+//		}
 		if(statkiWroga != null) {
 			for(StatekWroga statekWroga : statkiWroga) {
 				g2d.drawImage(ikonaWroga, (int)statekWroga.getX(), (int)statekWroga.getY(), this);
 			}
 		}
+		
 	}
 	
 }

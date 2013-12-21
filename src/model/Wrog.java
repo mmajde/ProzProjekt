@@ -1,9 +1,11 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import statek.StatekWroga;
 import uzytkowe.Wspolrzedne;
@@ -12,12 +14,12 @@ public class Wrog {
 // 600 x 600 cala plansza. x od 0 do 600. y od 0 do -600y ustawic to na stale w calym projekcie
 	private List<StatekWroga> statkiWroga;
 	private Random generatorWspolrzednych; 
-	private final int MAX_LICZBA_WROGOW = 10;
+	private final int MAX_LICZBA_WROGOW = 200;
 	private int aktualnaLiczbaWrogow;
 	
 	public Wrog() {
 		generatorWspolrzednych = new Random();
-		statkiWroga = new ArrayList<StatekWroga>(MAX_LICZBA_WROGOW);
+		statkiWroga = new CopyOnWriteArrayList<StatekWroga>();
 		aktualnaLiczbaWrogow = 0;
 	}
 
@@ -64,13 +66,10 @@ public class Wrog {
 	}
 	
 	public void czyscMape() {
-		Iterator<StatekWroga> it_statkow = statkiWroga.iterator();
-
-		while(it_statkow.hasNext()) {		
-			StatekWroga statekWroga = it_statkow.next();
+		for(StatekWroga statekWroga : statkiWroga) {
 			if(statekWroga.getY() > 600) {
 				try{
-					it_statkow.remove();
+					statkiWroga.remove(statekWroga);
 					aktualnaLiczbaWrogow--;
 				} catch (UnsupportedOperationException e) {
 					throw new RuntimeException();

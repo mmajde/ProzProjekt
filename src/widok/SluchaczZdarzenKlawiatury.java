@@ -17,12 +17,13 @@ public class SluchaczZdarzenKlawiatury extends KeyAdapter  {
 	}
 	
 	public void keyPressed(KeyEvent keyEvent) {
-		kolejkaBlokujaca.offer(new StanPrzycisku(keyEvent, true));
+		kolejkaBlokujaca.offer(new StanPrzycisku(keyEvent.getKeyCode(), true));
 	}
 
 	public void keyReleased(KeyEvent keyEvent) {
 		try {
-			kolejkaBlokujaca.put(new StanPrzycisku(keyEvent, false));
+			/* tutaj put żeby nie było blokowania systemu */
+			kolejkaBlokujaca.put(new StanPrzycisku(keyEvent.getKeyCode(), false));
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

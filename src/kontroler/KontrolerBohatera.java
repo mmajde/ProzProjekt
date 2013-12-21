@@ -6,6 +6,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import model.Bohater;
+import model.SterowanieBohaterem;
 import model.Strateg;
 import uzytkowe.StanPrzycisku;
 import widok.Widok;
@@ -26,7 +27,6 @@ public class KontrolerBohatera implements ActionListener {
 		this.bohater = bohater;
 		kolejkaBlokujaca = przypiszKolejkeBlokujaca();
 		this.strateg = new Strateg(bohater);
-		strateg.organizujStrategie();
 	}
 	
 	@Override
@@ -35,8 +35,8 @@ public class KontrolerBohatera implements ActionListener {
 		for(StanPrzycisku stanPrzycisku : kolejkaBlokujaca) {
 			kolejkaBlokujaca.poll();
 			// pobierać te liczby z modelu
-			int klucz = stanPrzycisku.getZdarzenieKlawisza().getKeyCode() + (stanPrzycisku.isWcisniety() == true ? 0 : 200);
-			strateg.dzialaj(klucz);
+//			int klucz = stanPrzycisku.getZdarzenieKlawisza().getKeyCode() + (stanPrzycisku.isWcisniety() == true ? 0 : 200);
+//			strateg.dzialaj(klucz);
 		}
 		
 		SterowanieBohaterem.przesunBohatera(bohater.getStatekBohatera());
@@ -53,7 +53,7 @@ public class KontrolerBohatera implements ActionListener {
 
 	private BlockingQueue<StanPrzycisku> przypiszKolejkeBlokujaca() {
 		// zastanowić się czy tu nie będzie wyjątków
-		SluchaczZdarzenKlawiatury sluchaczZdarzenKlawiatury = widok.getSluchaczaZdarzenKlawiatury();
+		SluchaczZdarzenKlawiatury sluchaczZdarzenKlawiatury = widok.getSluchaczZdarzenKlawiatury();
 		if(sluchaczZdarzenKlawiatury != null) {
 			return sluchaczZdarzenKlawiatury.getKolejkaBlokujaca();
 		} else {

@@ -1,6 +1,5 @@
-package kontroler;
+package model;
 
-import model.Ruch;
 import statek.StatekBohatera;
 import uzytkowe.Przesuniecie;
 import uzytkowe.Wspolrzedne;

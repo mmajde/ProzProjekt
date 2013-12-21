@@ -21,6 +21,7 @@ public class Strateg {
 	public Strateg(Bohater bohater) {
 		this.bohater = bohater;
 		mapaStrategii = new HashMap<Integer, Strategia>(0);
+		organizujStrategie();
 	}
 	
 	public Strategia pobierzStrategie(Integer klucz) {
