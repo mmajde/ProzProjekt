@@ -1,6 +1,6 @@
 package model;
 
-import java.awt.event.KeyEvent;
+import java.awt.Dimension;
 import java.util.concurrent.BlockingQueue;
 
 import uzytkowe.StanPrzycisku;
@@ -9,12 +9,12 @@ public class Model {
 
 	public Wrog wrog;
 	public Bohater bohater;
-	public Strateg2 strateg;
+	public Strateg strateg;
 	
-	public Model() {
+	public Model(Dimension rozmiar) {
 		wrog = new Wrog();
-		bohater = new Bohater();
-		strateg = new Strateg2(bohater);
+		bohater = new Bohater(rozmiar);
+		strateg = new Strateg(bohater);
 	}
 	
 	
@@ -23,7 +23,6 @@ public class Model {
 	 */
 	public void zarzadzajElementami() {
 		wrog.ustawStatki();
-
 	}
 
 

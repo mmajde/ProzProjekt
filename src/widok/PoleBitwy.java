@@ -65,15 +65,7 @@ public class PoleBitwy extends JPanel {
 		if(statekBohatera != null) {
 			g2d.drawImage(ikonaBohatera, (int)statekBohatera.getX(), (int)statekBohatera.getY(), this);
 		}
-		
-		// jakis wyjatek?
-//		List<StatekWroga> statki = new ArrayList<StatekWroga>();
-//		statki.addAll(this.statkiWroga);
-//		if(statki != null) {
-//			for(StatekWroga statekWroga : statki) {
-//				g2d.drawImage(ikonaWroga, (int)statekWroga.getX(), (int)statekWroga.getY(), this);
-//			}
-//		}
+
 		if(statkiWroga != null) {
 			for(StatekWroga statekWroga : statkiWroga) {
 				g2d.drawImage(ikonaWroga, (int)statekWroga.getX(), (int)statekWroga.getY(), this);

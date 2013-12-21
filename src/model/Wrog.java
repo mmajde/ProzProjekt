@@ -1,21 +1,21 @@
 package model;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import statek.StatekWroga;
 import uzytkowe.Wspolrzedne;
 
 public class Wrog {
 // 600 x 600 cala plansza. x od 0 do 600. y od 0 do -600y ustawic to na stale w calym projekcie
-	private List<StatekWroga> statkiWroga;
-	private Random generatorWspolrzednych; 
 	private final int MAX_LICZBA_WROGOW = 200;
+	private final double DLUGOSC_RUCHU = 1;
+	
+	private List<StatekWroga> statkiWroga;
 	private int aktualnaLiczbaWrogow;
+	
+	private Random generatorWspolrzednych;
 	
 	public Wrog() {
 		generatorWspolrzednych = new Random();
@@ -32,8 +32,7 @@ public class Wrog {
 			y = y < 0 ? y : -y;
 			StatekWroga statekWroga = new StatekWroga(new Wspolrzedne(x, y));
 			
-			// poprawic magic number
-			statekWroga.setDol(1d);
+			statekWroga.setDol(DLUGOSC_RUCHU);
 			
 			statkiWroga.add(statekWroga);
 		}
@@ -61,7 +60,7 @@ public class Wrog {
 
 	public void przesunStatkiWroga() {
 		for(StatekWroga statekWroga : statkiWroga) {
-			statekWroga.setWspolrzedne(Ruch.przesun(statekWroga.getWspolrzedne(), statekWroga.getPrzesuniecie()));
+			statekWroga.setWspolrzedne(RuchBohaterem.przesun(statekWroga.getWspolrzedne(), statekWroga.getPrzesuniecie()));
 		}
 	}
 	
@@ -71,9 +70,7 @@ public class Wrog {
 				try{
 					statkiWroga.remove(statekWroga);
 					aktualnaLiczbaWrogow--;
-				} catch (UnsupportedOperationException e) {
-					throw new RuntimeException();
-				} catch (IllegalStateException e) {
+				} catch (UnsupportedOperationException | IllegalStateException e) {
 					throw new RuntimeException();
 				}
 			}

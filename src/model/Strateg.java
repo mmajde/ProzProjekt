@@ -4,58 +4,49 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+import uzytkowe.StanPrzycisku;
+
 import model.strategia.Strategia;
 import model.strategia.UstawPrzesuniecieWDol;
 import model.strategia.UstawPrzesuniecieWGore;
 import model.strategia.UstawPrzesuniecieWLewo;
 import model.strategia.UstawPrzesuniecieWPrawo;
 
-/* Klasa przechowująca strategie */
 public class Strateg {
-	
-	private final int enemy = 500;
-	
-	private Map<Integer, Strategia> mapaStrategii;
+
+	private Map<ObiektGry, Strategia> mapaStrategii;
 	private Bohater bohater;
 	
 	public Strateg(Bohater bohater) {
 		this.bohater = bohater;
-		mapaStrategii = new HashMap<Integer, Strategia>(0);
+		mapaStrategii = new HashMap<ObiektGry, Strategia>(0);
 		organizujStrategie();
 	}
 	
-	public Strategia pobierzStrategie(Integer klucz) {
-		return mapaStrategii.get(klucz);
-	}
-	
-	/* Metoda definiująca wszystkie reakcje na dane kliknięcie przycisku */
 	public void organizujStrategie() {
-		dodajStrategie(KeyEvent.VK_UP, new UstawPrzesuniecieWGore(-1d));
-		dodajStrategie(KeyEvent.VK_DOWN, new UstawPrzesuniecieWDol(1d));
-		dodajStrategie(KeyEvent.VK_RIGHT, new UstawPrzesuniecieWPrawo(1d));
-		dodajStrategie(KeyEvent.VK_LEFT, new UstawPrzesuniecieWLewo(-1d));
-		
-		// zmienic z 200 na zmienna globalna w jakiejs klasie na przyklad
-		dodajStrategie(KeyEvent.VK_UP + 200 , new UstawPrzesuniecieWGore(0d));
-		dodajStrategie(KeyEvent.VK_DOWN + 200, new UstawPrzesuniecieWDol(0d));
-		dodajStrategie(KeyEvent.VK_RIGHT + 200, new UstawPrzesuniecieWPrawo(0d));
-		dodajStrategie(KeyEvent.VK_LEFT + 200, new UstawPrzesuniecieWLewo(0d));
+		dodajStrategie(new StanPrzycisku(KeyEvent.VK_UP, true), new UstawPrzesuniecieWGore(-1d));
+		dodajStrategie(new StanPrzycisku(KeyEvent.VK_DOWN, true), new UstawPrzesuniecieWDol(1d));
+		dodajStrategie(new StanPrzycisku(KeyEvent.VK_LEFT, true), new UstawPrzesuniecieWLewo(-1d));
+		dodajStrategie(new StanPrzycisku(KeyEvent.VK_RIGHT, true), new UstawPrzesuniecieWPrawo(1d));
+
+		dodajStrategie(new StanPrzycisku(KeyEvent.VK_UP, false), new UstawPrzesuniecieWGore(0d));
+		dodajStrategie(new StanPrzycisku(KeyEvent.VK_DOWN, false), new UstawPrzesuniecieWDol(0d));
+		dodajStrategie(new StanPrzycisku(KeyEvent.VK_LEFT, false), new UstawPrzesuniecieWLewo(0d));
+		dodajStrategie(new StanPrzycisku(KeyEvent.VK_RIGHT, false), new UstawPrzesuniecieWPrawo(0d));
 
 	}
 	
-	private void dodajStrategie(Integer klucz, Strategia strategia) {
-		mapaStrategii.put(klucz, strategia);
+	private void dodajStrategie(ObiektGry obiektGry, Strategia strategia) {
+		mapaStrategii.put(obiektGry, strategia);
 	}
 	
-	public void dzialaj(int klucz) {
-		Strategia strategia = pobierzStrategie(klucz);
-		if(strategia != null) {
-			strategia.dzialanie(bohater.getStatekBohatera());
+	public void dzialaj(ObiektGry obiektGry) {
+		Strategia strategia = mapaStrategii.get(obiektGry);
+		if(strategia == null) {
+			System.out.println("Brak danej strategii");
 			return;
 		}
-		
-		// zastanowic sie czy rzucac wyjatek jezeli nie ma strategii
-		System.out.println("Brak danej strategii");
+		strategia.dzialanie(bohater.getStatekBohatera());
 	}
 	
 }

@@ -1,10 +1,10 @@
 package uzytkowe;
 
-import java.awt.event.KeyEvent;
-
 import model.ObiektGry;
 
-/* Rejestruje zdarzenie klawisza i odpowiadającą mu akcję (wciśnięcie, puszczenie) */
+
+/** Klasa przechowuje kod klawisza wraz z jego stanem (wciśnięty lub puszczony)
+ */
 public class StanPrzycisku extends ObiektGry {
 
 	/* Określa zdarzenie wcisniecia lub puszczenia klawisza */
@@ -12,9 +12,9 @@ public class StanPrzycisku extends ObiektGry {
 	/* Określa czy zdarzenie klawisza to przyciśnięcie czy puszczenie */
 	private boolean wcisniety;
 	
-	/**
-	 * @param zdarzenieKlawisza
-	 * @param czyWcisniety
+	/** Konstruuje nowy Stan Przycisku 
+	 * @param kodPrzycisku - kod klawisza pobrany klasy KeyEvent
+	 * @param czyWcisniety - wartość boolean definiująca wciśnięcie (true) lub puszczenie (false)
 	 */
 	public StanPrzycisku(int kodPrzycisku, boolean czyWcisniety) {
 		this.kodPrzycisku = kodPrzycisku;

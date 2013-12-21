@@ -1,28 +1,19 @@
 package model;
 
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
+import java.awt.Dimension;
 
 import statek.StatekBohatera;
 import uzytkowe.Wspolrzedne;
 
-public class Bohater extends ObiektGry {
-	
-	private final String SCIEZKA_IKONY_BOHATERA = "//home//majde//java_workspace//Statki_kosmiczne//images//bohaternext1.png";
-	
+public class Bohater {
+		
 	// to wyrzucic do StatekBohatera
 	private StatekBohatera statekBohatera;
-	private Image ikonaBohatera;
+	private Wspolrzedne wspolrzedneBohatera;
 	
-	public Bohater() {
+	public Bohater(Dimension rozmiar) {
 		stworzBohatera(new Wspolrzedne(270d, 530d));
-		ustawIkoneBohatera();
-	}
-	
-	private void ustawIkoneBohatera() {
-		ImageIcon ikona = new ImageIcon(SCIEZKA_IKONY_BOHATERA);
-    	ikonaBohatera = ikona.getImage();
+		wspolrzedneBohatera = new Wspolrzedne(rozmiar.getWidth()/2, rozmiar.getHeight()/2);
 	}
 
 	public StatekBohatera getStatekBohatera() {
@@ -31,10 +22,6 @@ public class Bohater extends ObiektGry {
 
 	private void stworzBohatera(Wspolrzedne wspolrzedne) {
 		statekBohatera = new StatekBohatera(wspolrzedne);
-	}
-	
-	public Image getIkonaBohatera() {
-		return ikonaBohatera;
 	}
 
 	public int getGranice() {

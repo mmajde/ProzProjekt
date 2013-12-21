@@ -4,7 +4,7 @@ import uzytkowe.Przesuniecie;
 import uzytkowe.Wspolrzedne;
 
 /* Klasa posiadająca metody statyczne poruszające obiektami w grze */
-public class Ruch {
+public class RuchBohaterem {
 	
 	/**
 	 * @param wspolrzedne
@@ -12,7 +12,6 @@ public class Ruch {
 	 * @return
 	 */
 	
-	// to powinno byc w kontrolerze!!!!
 	// ZASTANOWIC SIE CZY NIE PODAWAC TUTAJ OBIEKTY IMPLEMENTUJACEGO WSPOLRZEDNE!!
 	// i na nim operowac ustawiając mu nowe wspolrzedne
 	public static Wspolrzedne przesun(Wspolrzedne wspolrzedne, Przesuniecie przesuniecie) {

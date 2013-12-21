@@ -8,15 +8,12 @@ import java.util.concurrent.BlockingQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import statek.StatekBohatera;
-
 public class Widok extends JFrame {
 
 	private final Dimension ROZMIAR = new Dimension(800, 600);
 	
 	private PoleBitwy poleBitwy;
 	private SluchaczZdarzenKlawiatury sluchaczZdarzenKlawiatury;
-//	private Timer timer;
 	
 	public BlockingQueue<KeyEvent> kolejkaBlokujaca = new ArrayBlockingQueue<KeyEvent>(1);
 	public KeyEvent poprzednieZdarzenie; 
@@ -71,22 +68,9 @@ public class Widok extends JFrame {
 	public SluchaczZdarzenKlawiatury getSluchaczZdarzenKlawiatury() {
 		return sluchaczZdarzenKlawiatury;
 	}
-
-
-//	@Override
-//	public void actionPerformed(ActionEvent e) {
-//		// tutaj będzie ruszanie wrogami co tyle ile odlicza timer
-//		// statek pobierany z modelu
-//		System.out.println("Akcja");
-//		//
-//		
-//		repaint();
-//	}
-//	
-//	public void paint(Graphics g) {
-//		super.paint(g);
-//		
-//		//poleBitwy.rysujPoleBitwy(new StatekBohatera(new Wspolrzedne(270, 530)));	
-//	}
+	
+	public Dimension getRozmiar() {
+		return ROZMIAR;
+	}
 	
 }

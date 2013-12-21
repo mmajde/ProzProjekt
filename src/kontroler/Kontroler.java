@@ -22,7 +22,7 @@ public class Kontroler {
 	
 	public Kontroler() {
 		widok = new Widok();
-		model = new Model();
+		model = new Model(widok.getRozmiar());
 		
 		przed = 0;
 		po = 0;
@@ -32,12 +32,13 @@ public class Kontroler {
 
 	// zastanwaic sie czy to w ogole powinno byc watkiem?
 	public void uruchom() {
+		// gettery i settery!!
 		widok.getPoleBitwy().ustawStatekBohatera(model.bohater.getStatekBohatera());
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(2000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		
 		while(true) {
 			
@@ -46,8 +47,6 @@ public class Kontroler {
 			przed = System.currentTimeMillis();
 			
 			kolejkaBlokujaca = sluchaczZdarzenKlawiatury.getKolejkaBlokujaca();
-
-			
 
 			// tp sie wykonuje w kazdym obiegu petli ale powinno byc w modelu!!! anie tutaj
 			model.zarzadzajElementami();

@@ -36,7 +36,7 @@ public class SterowanieBohaterem {
 		Wspolrzedne wspolrzedneBohatera = statekBohatera.getWspolrzedne();
 		Przesuniecie przesuniecieBohatera = statekBohatera.getPrzesuniecie();
 		
-		Wspolrzedne noweWspolrzedne = Ruch.przesun(wspolrzedneBohatera, przesuniecieBohatera);
+		Wspolrzedne noweWspolrzedne = RuchBohaterem.przesun(wspolrzedneBohatera, przesuniecieBohatera);
 		statekBohatera.setWspolrzedne(noweWspolrzedne);
 	}
 	
