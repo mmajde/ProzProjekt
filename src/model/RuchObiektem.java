@@ -4,7 +4,7 @@ import uzytkowe.Przesuniecie;
 import uzytkowe.Wspolrzedne;
 
 /* Klasa posiadająca metody statyczne poruszające obiektami w grze */
-public class RuchBohaterem {
+public class RuchObiektem {
 	
 	/**
 	 * @param wspolrzedne

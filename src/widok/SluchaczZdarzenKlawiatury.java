@@ -5,31 +5,32 @@ import java.awt.event.KeyEvent;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import uzytkowe.StanPrzycisku;
+import zdarzenia.ZdarzenieGry;
+import zdarzenia.ZdarzeniePrzycisku;
 
 public class SluchaczZdarzenKlawiatury extends KeyAdapter  {
     
 	private final int rozmiarKolejki = 5;
-	private BlockingQueue<StanPrzycisku> kolejkaBlokujaca;
+	private BlockingQueue<ZdarzenieGry> kolejkaBlokujaca;
 	
 	public SluchaczZdarzenKlawiatury() {
-		kolejkaBlokujaca = new ArrayBlockingQueue<StanPrzycisku>(rozmiarKolejki);
+		kolejkaBlokujaca = new ArrayBlockingQueue<ZdarzenieGry>(rozmiarKolejki);
 	}
 	
 	public void keyPressed(KeyEvent keyEvent) {
-		kolejkaBlokujaca.offer(new StanPrzycisku(keyEvent.getKeyCode(), true));
+		kolejkaBlokujaca.offer(new ZdarzeniePrzycisku(keyEvent.getSource(), keyEvent.getKeyCode(), true));
 	}
 
 	public void keyReleased(KeyEvent keyEvent) {
 		try {
 			/* tutaj put żeby nie było blokowania systemu */
-			kolejkaBlokujaca.put(new StanPrzycisku(keyEvent.getKeyCode(), false));
+			kolejkaBlokujaca.put(new ZdarzeniePrzycisku(keyEvent.getSource(), keyEvent.getKeyCode(), false));
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public BlockingQueue<StanPrzycisku> getKolejkaBlokujaca() {
+	public BlockingQueue<ZdarzenieGry> getKolejkaBlokujaca() {
 		return kolejkaBlokujaca;
 	}
 }

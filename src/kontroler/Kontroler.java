@@ -3,20 +3,22 @@ package kontroler;
 import java.util.concurrent.BlockingQueue;
 
 import model.Model;
-import uzytkowe.StanPrzycisku;
+import uzytkowe.Makieta;
 import widok.SluchaczZdarzenKlawiatury;
 import widok.Widok;
+import zdarzenia.KolejnyMomentZdarzenie;
+import zdarzenia.ZdarzenieGry;
 
 public class Kontroler {
 
 	private Widok widok;
 	private Model model;
 	
-	private final long czasCzekania = 3;
+	private final long czasCzekania;
 	private long przed;
 	private long po;
 	
-	private BlockingQueue<StanPrzycisku> kolejkaBlokujaca;
+	private BlockingQueue<ZdarzenieGry> kolejkaBlokujaca;
 	private SluchaczZdarzenKlawiatury sluchaczZdarzenKlawiatury;
 
 	
@@ -24,6 +26,7 @@ public class Kontroler {
 		widok = new Widok();
 		model = new Model(widok.getRozmiar());
 		
+		czasCzekania = 3;
 		przed = 0;
 		po = 0;
 		
@@ -32,8 +35,6 @@ public class Kontroler {
 
 	// zastanwaic sie czy to w ogole powinno byc watkiem?
 	public void uruchom() {
-		// gettery i settery!!
-		widok.getPoleBitwy().ustawStatekBohatera(model.bohater.getStatekBohatera());
 //		try {
 //			Thread.sleep(2000);
 //		} catch (InterruptedException e) {
@@ -43,22 +44,22 @@ public class Kontroler {
 		while(true) {
 			
 			czekaj();
-			
 			przed = System.currentTimeMillis();
 			
 			kolejkaBlokujaca = sluchaczZdarzenKlawiatury.getKolejkaBlokujaca();
 
-			// tp sie wykonuje w kazdym obiegu petli ale powinno byc w modelu!!! anie tutaj
-			model.zarzadzajElementami();
+			KolejnyMomentZdarzenie kolejnyMoment = new KolejnyMomentZdarzenie(this);
+			try {
+				kolejkaBlokujaca.put(kolejnyMoment);
+			} catch (InterruptedException e) {
+				// dodac wszystkie inne wyjatki
+				e.printStackTrace();
+			}
+			
 			model.zarzadzajZdarzeniami(kolejkaBlokujaca);
 			
-			
-			// model zwraca makiete!! i robie od razu rysujPoleBitwy!!!
-			widok.getPoleBitwy().ustawWrogieStatki(model.wrog.getStatkiWroga());
-			widok.getPoleBitwy().ustawStatekBohatera(model.bohater.getStatekBohatera());
-			// to zawsze na koncu ale przekazywac gotowe DTO, makiete!
-			widok.getPoleBitwy().rysujPoleBitwy();
-			
+			Makieta makieta = model.getMakieta();
+			widok.getPoleBitwy().rysujPoleBitwy(makieta);
 			
 			po = System.currentTimeMillis();
 		}

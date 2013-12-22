@@ -1,11 +1,8 @@
-package uzytkowe;
-
-import model.ObiektGry;
-
+package zdarzenia;
 
 /** Klasa przechowuje kod klawisza wraz z jego stanem (wciśnięty lub puszczony)
  */
-public class StanPrzycisku extends ObiektGry {
+public class ZdarzeniePrzycisku extends ZdarzenieGry {
 
 	/* Określa zdarzenie wcisniecia lub puszczenia klawisza */
 	private int kodPrzycisku;
@@ -16,7 +13,8 @@ public class StanPrzycisku extends ObiektGry {
 	 * @param kodPrzycisku - kod klawisza pobrany klasy KeyEvent
 	 * @param czyWcisniety - wartość boolean definiująca wciśnięcie (true) lub puszczenie (false)
 	 */
-	public StanPrzycisku(int kodPrzycisku, boolean czyWcisniety) {
+	public ZdarzeniePrzycisku(Object source, int kodPrzycisku, boolean czyWcisniety) {
+		super(source);
 		this.kodPrzycisku = kodPrzycisku;
 		this.wcisniety = czyWcisniety;
 	}
@@ -30,38 +28,14 @@ public class StanPrzycisku extends ObiektGry {
             return false;
         if (obiekt == this)
             return true;
-        if (!(obiekt instanceof StanPrzycisku))
+        if (!(obiekt instanceof ZdarzeniePrzycisku))
             return false;
         
-        StanPrzycisku stanPrzycisku = (StanPrzycisku)obiekt;
-        if((this.kodPrzycisku == stanPrzycisku.getKodPrzycisku() && this.isWcisniety() == stanPrzycisku.isWcisniety())) {
+        ZdarzeniePrzycisku zdarzeniePrzycisku = (ZdarzeniePrzycisku)obiekt;
+        if((this.kodPrzycisku == zdarzeniePrzycisku.kodPrzycisku && this.wcisniety == zdarzeniePrzycisku.wcisniety)) {
         	return true;
         }
         
         return false;
-    }
-	   
-	public int getKodPrzycisku() {
-	return kodPrzycisku;
-}
-	
-//	public KeyEvent getZdarzenieKlawisza() {
-//		return zdarzenieKlawisza;
-//	}
-//
-//	public void setZdarzenieKlawisza(KeyEvent zdarzenieKlawisza) {
-//		this.zdarzenieKlawisza = zdarzenieKlawisza;
-//	}
-
-	public boolean isWcisniety() {
-		return wcisniety;
 	}
-
-	public void setCzyWcisniety(boolean czyWcisniety) {
-		this.wcisniety = czyWcisniety;
-	}
-	
-	
-	
-	
 }

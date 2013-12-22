@@ -3,18 +3,18 @@ package kolejkablokujaca;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import uzytkowe.StanPrzycisku;
+import zdarzenia.ZdarzeniePrzycisku;
 
 public class KolejkaBlokujaca {
 
 	private final int rozmiarKolejki = 3;
-	private BlockingQueue<StanPrzycisku> kolejkaBlokujaca;
+	private BlockingQueue<ZdarzeniePrzycisku> kolejkaBlokujaca;
 	
 	public KolejkaBlokujaca() {
-		this.kolejkaBlokujaca = new ArrayBlockingQueue<StanPrzycisku>(rozmiarKolejki);
+		this.kolejkaBlokujaca = new ArrayBlockingQueue<ZdarzeniePrzycisku>(rozmiarKolejki);
 	}
 	
-	public BlockingQueue<StanPrzycisku> getKolejkaBlokujaca() {
+	public BlockingQueue<ZdarzeniePrzycisku> getKolejkaBlokujaca() {
 		return kolejkaBlokujaca;
 	}
 
