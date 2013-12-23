@@ -3,23 +3,19 @@ package model;
 import uzytkowe.Przesuniecie;
 import uzytkowe.Wspolrzedne;
 
-/* Klasa posiadająca metody statyczne poruszające obiektami w grze */
+/** Klasa posiadająca metodę statyczną poruszającą obiektami w grze */
 public class RuchObiektem {
 	
 	/**
-	 * @param wspolrzedne
-	 * @param przesuniecie
-	 * @return
+	 * @param wspolrzedneObiektu - aktualne wspólrzednę obiektu
+	 * @param przesuniecieObiektu - określa w jaką stronę i ole ma przesunąć się dany obiekt
+	 * @return wspolrzedne przesuniętego obiektu 
 	 */
-	
-	// ZASTANOWIC SIE CZY NIE PODAWAC TUTAJ OBIEKTY IMPLEMENTUJACEGO WSPOLRZEDNE!!
-	// i na nim operowac ustawiając mu nowe wspolrzedne
-	public static Wspolrzedne przesun(Wspolrzedne wspolrzedne, Przesuniecie przesuniecie) {
+	public static Wspolrzedne przesunObiekt(Wspolrzedne wspolrzedneObiektu, Przesuniecie przesuniecieObiektu) {
 		
-		double nowyX = wspolrzedne.getX() + przesuniecie.getPrawo() + przesuniecie.getLewo();
-		double nowyY = wspolrzedne.getY() + przesuniecie.getGora() + przesuniecie.getDol();
+		double nowyX = wspolrzedneObiektu.getX() + przesuniecieObiektu.getPrawo() + przesuniecieObiektu.getLewo();
+		double nowyY = wspolrzedneObiektu.getY() + przesuniecieObiektu.getGora() + przesuniecieObiektu.getDol();
 			
 		return new Wspolrzedne(nowyX, nowyY);
-		
 	}
 }

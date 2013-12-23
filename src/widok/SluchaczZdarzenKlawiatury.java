@@ -18,14 +18,19 @@ public class SluchaczZdarzenKlawiatury extends KeyAdapter  {
 	}
 	
 	public void keyPressed(KeyEvent keyEvent) {
-		kolejkaBlokujaca.offer(new ZdarzeniePrzycisku(keyEvent.getSource(), keyEvent.getKeyCode(), true));
+		wstawDoKolejki(keyEvent, true);
 	}
 
 	public void keyReleased(KeyEvent keyEvent) {
+		wstawDoKolejki(keyEvent, false);
+	}
+
+	public void wstawDoKolejki(KeyEvent keyEvent, boolean czyWcisniety) {
 		try {
-			/* tutaj put żeby nie było blokowania systemu */
-			kolejkaBlokujaca.put(new ZdarzeniePrzycisku(keyEvent.getSource(), keyEvent.getKeyCode(), false));
+			kolejkaBlokujaca.put(new ZdarzeniePrzycisku(keyEvent.getSource(), keyEvent.getKeyCode(), czyWcisniety));
+		// dodac wszystkie inne kontrole bledow
 		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

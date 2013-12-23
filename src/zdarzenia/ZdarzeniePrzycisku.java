@@ -4,9 +4,9 @@ package zdarzenia;
  */
 public class ZdarzeniePrzycisku extends ZdarzenieGry {
 
-	/* Określa zdarzenie wcisniecia lub puszczenia klawisza */
+	/** Określa zdarzenie wcisniecia lub puszczenia klawisza */
 	private int kodPrzycisku;
-	/* Określa czy zdarzenie klawisza to przyciśnięcie czy puszczenie */
+	/** Określa czy zdarzenie klawisza to przyciśnięcie czy puszczenie */
 	private boolean wcisniety;
 	
 	/** Konstruuje nowy Stan Przycisku 

@@ -33,4 +33,5 @@ public class Wspolrzedne {
 		
 		return stringBuffer.toString();
 	}
+	
 }

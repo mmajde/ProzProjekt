@@ -15,10 +15,10 @@ public class Przesuniecie {
 	}
 	
 	public Przesuniecie(double gora, double dol, double prawo, double lewo) {
-		this.gora = gora;
+		this.gora = -gora;
 		this.dol = dol;
 		this.prawo = prawo;
-		this.lewo = lewo;
+		this.lewo = -lewo;
 	}
 	
 	public double getGora() {

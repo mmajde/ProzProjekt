@@ -18,6 +18,9 @@ public class Model {
 	
 	public Model(Dimension rozmiar) {
 		makieta = new Makieta(rozmiar);
+		// tu nie powinno byc przekazywanie makiety, 
+		// makieta jest jedna wiec moze miec statyczna metoda getMakieta ale oczywiscie wczesniej na przyklad tutaj trzeba
+		// zainicjalizowac makiete
 		silnikWroga = new SilnikWroga(makieta);
 		silnikBohatera = new SilnikBohatera(makieta);
 		strateg = new Strateg(silnikWroga, silnikBohatera);

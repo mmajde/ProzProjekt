@@ -8,6 +8,7 @@ import zdarzenia.KolejnyMomentZdarzenie;
 import zdarzenia.ZdarzenieGry;
 import zdarzenia.ZdarzeniePrzycisku;
 
+import model.strategia.GenerujPocisk;
 import model.strategia.SilnikBohatera;
 import model.strategia.SilnikGry;
 import model.strategia.SilnikWroga;
@@ -35,6 +36,7 @@ public class Strateg {
 		// zrobic wyjatek jak nie ma tego przypisania
 		UstawPrzesuniecieBohatera.PrzypiszPrzesuniecie(silnikBohatera.getPrzesuniecieBohatera());
 		
+		// magic numbers
 		dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_UP, true), new UstawPrzesuniecieBohateraWGore(-1d));
 		dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_DOWN, true), new UstawPrzesuniecieBohateraWDol(1d));
 		dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_LEFT, true), new UstawPrzesuniecieBohateraWLewo(-1d));
@@ -44,6 +46,8 @@ public class Strateg {
 		dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_DOWN, false), new UstawPrzesuniecieBohateraWDol(0d));
 		dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_LEFT, false), new UstawPrzesuniecieBohateraWLewo(0d));
 		dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_RIGHT, false), new UstawPrzesuniecieBohateraWPrawo(0d));
+		
+		dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_SPACE, false), new GenerujPocisk(silnikBohatera));
 
 	}
 	

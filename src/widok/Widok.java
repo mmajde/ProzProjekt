@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 
 public class Widok extends JFrame {
 
+	// magic numbers
 	private final Dimension ROZMIAR = new Dimension(800, 600);
 	
 	private PoleBitwy poleBitwy;

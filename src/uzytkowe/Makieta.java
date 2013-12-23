@@ -9,18 +9,26 @@ public class Makieta {
 	private Dimension rozmiar;
 	private List<Wspolrzedne> wspolrzedneStatkowWroga;
 	private Wspolrzedne wspolrzedneStatkuBohatera;
+	private List<Wspolrzedne> wspolrzednePociskow;
 	
-	//tymczasowe gettery potem zwracam cala makiete
+	public Makieta(Dimension rozmiar) {
+		this.rozmiar = rozmiar;
+	}
+	
+	public List<Wspolrzedne> getWspolrzednePociskow() {
+		return wspolrzednePociskow;
+	}
+
+	public void setWspolrzednePociskow(List<Wspolrzedne> wspolrzednePociskow) {
+		this.wspolrzednePociskow = wspolrzednePociskow;
+	}
+
 	public Wspolrzedne getWspolrzedneStatkuBohatera() {
 		return wspolrzedneStatkuBohatera;
 	}
 
 	public void setWspolrzedneStatkuBohatera(Wspolrzedne wspolrzedneStatkuBohatera) {
 		this.wspolrzedneStatkuBohatera = wspolrzedneStatkuBohatera;
-	}
-
-	public Makieta(Dimension rozmiar) {
-		this.rozmiar = rozmiar;
 	}
 	
 	public List<Wspolrzedne> getWspolrzedneStatkowWroga() {
@@ -34,6 +42,5 @@ public class Makieta {
 	public Dimension getRozmiar() {
 		return rozmiar;
 	}
-	
 	
 }
