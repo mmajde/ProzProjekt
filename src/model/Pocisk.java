@@ -1,6 +1,5 @@
-package statek;
+package model;
 
-import model.ObiektGry;
 import uzytkowe.Przesuniecie;
 import uzytkowe.Wspolrzedne;
 

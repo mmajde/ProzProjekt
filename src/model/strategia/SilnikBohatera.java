@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import model.Pocisk;
 import model.RuchObiektem;
-import statek.Pocisk;
 import statek.StatekBohatera;
 import uzytkowe.Makieta;
 import uzytkowe.Przesuniecie;
@@ -55,7 +55,7 @@ public class SilnikBohatera {
 		ustawBohateraIPociskiNaMakiecie();
 	}
 
-	public void usunPociskiZaMapa() {
+	private void usunPociskiZaMapa() {
 		for(Pocisk pocisk : pociski) {
 			if(!czyPociskNaMapie(pocisk)) {
 				usunPocisk(pocisk);
@@ -63,12 +63,12 @@ public class SilnikBohatera {
 		}
 	}
 
-	public void ustawBohateraIPociskiNaMakiecie() {
+	private void ustawBohateraIPociskiNaMakiecie() {
 		makieta.setWspolrzedneStatkuBohatera(wspolrzedneBohatera);
 		makieta.setWspolrzednePociskow(getWspolrzednePociskow());
 	}
 
-	public void przesunBohateraIPociski() {
+	private void przesunBohateraIPociski() {
 		wspolrzedneBohatera = RuchObiektem.przesunObiekt(wspolrzedneBohatera, przesuniecieBohatera);
 		for(Pocisk pocisk : pociski) {
 			pocisk.setWspolrzedne(RuchObiektem.przesunObiekt(pocisk.getWspolrzedne(), pocisk.getPrzesuniecie()));

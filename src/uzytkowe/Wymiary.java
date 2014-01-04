@@ -1,5 +1,8 @@
 package uzytkowe;
 
+/**
+ * Przechowuje wymiary danego obiektu w grze (szerokość oraz wysokość)
+ */
 public class Wymiary {
 	
 	private double szerokosc;

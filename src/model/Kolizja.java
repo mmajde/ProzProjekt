@@ -5,19 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import statek.Pocisk;
 import statek.StatekWroga;
-import uzytkowe.PociskiIStatkiDoUsuniecia;
+import uzytkowe.PociskiIStatkiKolidujace;
 import uzytkowe.Wspolrzedne;
 import uzytkowe.Wymiary;
 
+/**
+ * Obsługa kolizji w grze
+ */
 public class Kolizja {
 
 	
 	/** Metoda zwraca Statek Wroga z którym zderzył się Statek Bohatera.
 	 * 	Zwraca null w przypadku gdy nie ma kolizji.
 	 */
-	public static StatekWroga sprawdzKolizjeWrogaZBohaterem(Map<StatekWroga, Wspolrzedne> mapaStatkow, Wymiary wymiaryStatkuWroga, 
+	public static StatekWroga pobierzKolizjeWrogaZBohaterem(Map<StatekWroga, Wspolrzedne> mapaStatkow, Wymiary wymiaryStatkuWroga, 
 			Wspolrzedne wspolrzedneBohatera, Wymiary wymiaryBohatera) {
 		Rectangle obszarBohatera = StworzObszarZajmowany(wspolrzedneBohatera, wymiaryBohatera);
 		for(Map.Entry<StatekWroga, Wspolrzedne> statekIWspolrzedne : mapaStatkow.entrySet()) {
@@ -38,7 +40,7 @@ public class Kolizja {
 	/** Sprawdza czy jest kolizja któregoś z wrogich statków z pociskiem
 	 * @return Obiekt klasy PociskiIStatkiDoUsuniecia przekazujący dwie listy z elementami do usuniecia
 	 */
-	public static PociskiIStatkiDoUsuniecia sprawdzKolizjePociskuZWrogiem(Map<StatekWroga, Wspolrzedne> mapaStatkow, Wymiary wymiaryStatkuWroga, 
+	public static PociskiIStatkiKolidujace pobierzKolizjePociskowZWrogami(Map<StatekWroga, Wspolrzedne> mapaStatkow, Wymiary wymiaryStatkuWroga, 
 			List<Pocisk> pociski) {
 		List<StatekWroga> statkiWrogaDoUsuniecia = new ArrayList<StatekWroga>(0);
 		List<Pocisk> pociskiDoUsuniecia = new ArrayList<Pocisk>(0);
@@ -51,7 +53,7 @@ public class Kolizja {
 				}
 			}
 		}
-		return new PociskiIStatkiDoUsuniecia(statkiWrogaDoUsuniecia, pociskiDoUsuniecia);
+		return new PociskiIStatkiKolidujace(statkiWrogaDoUsuniecia, pociskiDoUsuniecia);
 	}
 
 

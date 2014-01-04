@@ -4,6 +4,9 @@ import java.awt.Dimension;
 import java.util.List;
 
 
+/**
+ *  Przechowuje rozmiar planszy na której wyświetlane są elementy oraz wszystkie współrzędne obiektów które mają być wyświetlone
+ */
 public class Makieta {
 
 	private Dimension rozmiar;

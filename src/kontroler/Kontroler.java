@@ -2,8 +2,10 @@ package kontroler;
 
 import java.util.concurrent.BlockingQueue;
 
+
 import model.Model;
 import uzytkowe.Makieta;
+import uzytkowe.kolejkablokujaca.KolejkaBlokujaca;
 import widok.SluchaczZdarzenKlawiatury;
 import widok.Widok;
 import zdarzenia.KolejnyMomentZdarzenie;
@@ -26,7 +28,7 @@ public class Kontroler {
 		widok = new Widok();
 		model = new Model(widok.getRozmiar());
 		
-		czasCzekania = 3;
+		czasCzekania = 5;
 		przed = 0;
 		po = 0;
 		
@@ -40,23 +42,25 @@ public class Kontroler {
 //		} catch (InterruptedException e) {
 //			e.printStackTrace();
 //		}
+		KolejkaBlokujaca.stworzKolejke();
 		
 		while(true) {
 			
 			czekaj();
 			przed = System.currentTimeMillis();
-			
-			kolejkaBlokujaca = sluchaczZdarzenKlawiatury.getKolejkaBlokujaca();
 
 			KolejnyMomentZdarzenie kolejnyMoment = new KolejnyMomentZdarzenie(this);
 			try {
-				kolejkaBlokujaca.put(kolejnyMoment);
+//				for(int i =0; i<100; i++) {
+					KolejkaBlokujaca.wstawZdarzenieGry(kolejnyMoment);
+//				}
 			} catch (InterruptedException e) {
 				// dodac wszystkie inne wyjatki
-				e.printStackTrace();
+//				e.printStackTrace();
+				System.out.println("Nie stworzono kolejki");
 			}
 			
-			model.zarzadzajZdarzeniami(kolejkaBlokujaca);
+			model.zarzadzajZdarzeniami();
 			
 			Makieta makieta = model.getMakieta();
 			widok.getPoleBitwy().rysujPoleBitwy(makieta);

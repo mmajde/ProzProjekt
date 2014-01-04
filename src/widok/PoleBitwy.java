@@ -59,19 +59,20 @@ public class PoleBitwy extends JPanel {
 		}
 		
 		if(makieta.getWspolrzedneStatkuBohatera() != null) {
-			rysujObiekty(obrazekBohatera, opakujWspolrzedneBohateraWListe(), rysownik);
+			rysujObiekty(obrazekBohatera, opakujWspolrzedneStatkuBohateraWListe(), rysownik);
 		}
 
 		if(makieta.getWspolrzedneStatkowWroga() != null) {
 			rysujObiekty(obrazekWroga, makieta.getWspolrzedneStatkowWroga(), rysownik);
 		}
+		
 		if(makieta.getWspolrzednePociskow() != null) {
 			rysujObiekty(obrazekPocisku, makieta.getWspolrzednePociskow(), rysownik);
 		}
 		
 	}
 
-	private List<Wspolrzedne> opakujWspolrzedneBohateraWListe() {
+	private List<Wspolrzedne> opakujWspolrzedneStatkuBohateraWListe() {
 		List<Wspolrzedne> opakowanieWspolrzednychBohatera = new ArrayList<Wspolrzedne>();
 		opakowanieWspolrzednychBohatera.add(makieta.getWspolrzedneStatkuBohatera());
 		return opakowanieWspolrzednychBohatera;

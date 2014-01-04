@@ -1,5 +1,8 @@
 package uzytkowe;
 
+/**
+ * Określa miejsce w przestrzeni w którym znajduje się dany obiekt gry
+ */
 public class Wspolrzedne {
 
 	private double x;

@@ -1,12 +1,11 @@
 package model;
 
 import java.awt.Dimension;
-import java.util.concurrent.BlockingQueue;
 
 import model.strategia.SilnikBohatera;
 import model.strategia.SilnikWroga;
-
 import uzytkowe.Makieta;
+import uzytkowe.kolejkablokujaca.KolejkaBlokujaca;
 import zdarzenia.ZdarzenieGry;
 
 public class Model {
@@ -26,11 +25,15 @@ public class Model {
 		strateg = new Strateg(silnikWroga, silnikBohatera);
 	}
 
-	public void zarzadzajZdarzeniami(BlockingQueue<ZdarzenieGry> kolejkaBlokujaca) {
-
-		for(ZdarzenieGry zdarzenieGry : kolejkaBlokujaca) {
-			kolejkaBlokujaca.poll();
+	public void zarzadzajZdarzeniami() {
+		silnikWroga.dzialaj();
+		silnikBohatera.dzialaj();
+		ZdarzenieGry zdarzenieGry;
+		while((zdarzenieGry = KolejkaBlokujaca.wezNastepneZdarzenieGry()) != null) {
+//		for(ZdarzenieGry zdarzenieGry : kolejkaBlokujaca) {
 			strateg.dzialaj(zdarzenieGry);
+			// zrobic funkcje pod tytulem usun glowe
+//			kolejkaBlokujaca.poll();
 		}
 	}
 	

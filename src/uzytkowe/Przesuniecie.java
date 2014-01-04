@@ -1,5 +1,8 @@
 package uzytkowe;
 
+/**
+ * Definiuje wartości przesunięć w czeterech kierunkach (góra, dół, prawo, lewo) danych obiektów w grze
+ */
 public class Przesuniecie {
 
 	private double gora;

@@ -1,9 +1,9 @@
 package model.strategia;
 
 import model.Kolizja;
-import statek.Pocisk;
+import model.Pocisk;
 import statek.StatekWroga;
-import uzytkowe.PociskiIStatkiDoUsuniecia;
+import uzytkowe.PociskiIStatkiKolidujace;
 
 
 public class SilnikGry implements Strategia {
@@ -18,32 +18,37 @@ public class SilnikGry implements Strategia {
 
 	@Override
 	public void dzialanie() {
-		silnikWroga.dzialaj();
-		silnikBohatera.dzialaj();
+		uruchomSilniki();
 		sprawdzIUsunKolizje();
 	}
 
-	private void sprawdzIUsunKolizje() {
-		kolizjaBohateraZWrogiem();
-		kolizjaPociskuZWrogiem();
+	private void uruchomSilniki() {
+		silnikWroga.dzialaj();
+		silnikBohatera.dzialaj();
 	}
 
-	private void kolizjaPociskuZWrogiem() {
-		// tu zastanowic sie nad jakims DTO
-		PociskiIStatkiDoUsuniecia pociskiIStatkiDoUsuniecia = Kolizja.sprawdzKolizjePociskuZWrogiem(
+	private void sprawdzIUsunKolizje() {
+		usunKolizjeBohateraZWrogiem();
+		usunKolizjePociskuZWrogiem();
+	}
+
+	private void usunKolizjePociskuZWrogiem() {
+		// tu zastanowic sie nad jakims DTO do przekazywania argumentow
+		PociskiIStatkiKolidujace pociskiIStatkiKolidujace = Kolizja.pobierzKolizjePociskowZWrogami(
 				silnikWroga.getStatkiOrazIchWspolrzedne(), silnikWroga.getWymiaryStatku(), silnikBohatera.getPociski());
-		for(StatekWroga statekWrogaDoUsuniecia : pociskiIStatkiDoUsuniecia.getStatkiWrogaDoUsuniecia()) {
+		for(StatekWroga statekWrogaDoUsuniecia : pociskiIStatkiKolidujace.getStatkiWrogaKolidujace()) {
 			// try catch
 			silnikWroga.usunStatek(statekWrogaDoUsuniecia);
 		}
-		for(Pocisk pociskDoUsuniecia : pociskiIStatkiDoUsuniecia.getPociskiDoUsuniecia()) {
+		for(Pocisk pociskDoUsuniecia : pociskiIStatkiKolidujace.getPociskiKolidujace()) {
 			// try catch
+			// zastanowic sie czy w Silniku nie zrobic funkcji do usuwania danego obiektu z danej listy
 			silnikBohatera.usunPocisk(pociskDoUsuniecia);
 		}
 	}
 
-	public void kolizjaBohateraZWrogiem() {
-		StatekWroga kolidujacyStatekWroga = Kolizja.sprawdzKolizjeWrogaZBohaterem(silnikWroga.getStatkiOrazIchWspolrzedne(), silnikWroga.getWymiaryStatku(), 
+	private void usunKolizjeBohateraZWrogiem() {
+		StatekWroga kolidujacyStatekWroga = Kolizja.pobierzKolizjeWrogaZBohaterem(silnikWroga.getStatkiOrazIchWspolrzedne(), silnikWroga.getWymiaryStatku(), 
 				silnikBohatera.getWspolrzedneBohatera(), silnikBohatera.getWymiaryStatku());
 		if(kolidujacyStatekWroga != null){
 			silnikWroga.usunStatek(kolidujacyStatekWroga);

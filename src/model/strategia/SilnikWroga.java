@@ -49,14 +49,13 @@ public class SilnikWroga {
 	}
 	
 	public void dzialaj() {
+		stworzStatki();
+		przesunStatki();
 		usunStatkiZaMapa();
-		if(aktualnaLiczbaStatkow < MAX_LICZBA_STATKOW) {
-			stworzStatki();
-		}
-		przesunStatkiIUstawNaMakiecie();	
+		ustawStatkiNaMakiecie();
 	}
 	
-	public void usunStatkiZaMapa() {
+	private void usunStatkiZaMapa() {
 		for(Map.Entry<StatekWroga, Wspolrzedne> wspolrzedneStatku : statkiOrazIchWspolrzedne.entrySet()) {
 			// magic number
 			if(czyStatekZaMapa(wspolrzedneStatku.getValue())) {
@@ -77,20 +76,19 @@ public class SilnikWroga {
 	}
 	
 	// zrobic wyjatek jak ktos nie stowrzyl wrogow a porusza nimi
-	public void stworzStatki() {
+	private void stworzStatki() {
 		while(aktualnaLiczbaStatkow < MAX_LICZBA_STATKOW) {	
 			dodajStatek(generujWspolrzedne());
 		}
 	}
 
-	public Wspolrzedne generujWspolrzedne() {
+	private Wspolrzedne generujWspolrzedne() {
 		// zmienic te magic numbers
 		double x = (generatorWspolrzednych.nextInt(550)) + 20 ;
 		double y = ((generatorWspolrzednych.nextInt(750)) + 20);
 		x = x < 0 ? -x : x; 
 		y = y < 0 ? y : -y;
-		Wspolrzedne wspolrzedne = new Wspolrzedne(x, y);
-		return wspolrzedne;
+		return new Wspolrzedne(x, y);
 	}
 
 	private void dodajStatek(Wspolrzedne wspolrzedneStatku) {
@@ -98,10 +96,13 @@ public class SilnikWroga {
 		aktualnaLiczbaStatkow++;
 	}
 	
-	public void przesunStatkiIUstawNaMakiecie() {
+	private void przesunStatki() {
 		for(Map.Entry<StatekWroga, Wspolrzedne> wspolrzedneStatku : statkiOrazIchWspolrzedne.entrySet()) {
 			wspolrzedneStatku.setValue(RuchObiektem.przesunObiekt(wspolrzedneStatku.getValue(), new Przesuniecie(0, DLUGOSC_RUCHU,0, 0)));
 		}
+	}
+
+	private void ustawStatkiNaMakiecie() {
 		makieta.setWspolrzedneStatkowWroga(new ArrayList<Wspolrzedne>(statkiOrazIchWspolrzedne.values()));
 	}
 	
