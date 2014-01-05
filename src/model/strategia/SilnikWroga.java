@@ -23,6 +23,7 @@ public class SilnikWroga {
 	
 	private int aktualnaLiczbaStatkow;
 	private Random generatorWspolrzednych;
+	// to wrzucic do jakiejs klasy
 	private Map<StatekWroga, Wspolrzedne> statkiOrazIchWspolrzedne;
 	private Makieta makieta;
 	private Wymiary wymiaryStatku;
@@ -37,7 +38,14 @@ public class SilnikWroga {
 		
 		stworzStatki();
 	}
-
+	
+	public void dzialaj() {
+		stworzStatki();
+		przesunStatki();
+		usunStatkiZaMapa();
+		ustawStatkiNaMakiecie();
+	}
+	
 	public void usunStatek(StatekWroga statekWroga) {
 		try {
 			// pomyslec czy nie przekazywac wyzej wyjatku
@@ -46,13 +54,6 @@ public class SilnikWroga {
 		} catch (Exception e) {
 			throw new RuntimeException();
 		}
-	}
-	
-	public void dzialaj() {
-		stworzStatki();
-		przesunStatki();
-		usunStatkiZaMapa();
-		ustawStatkiNaMakiecie();
 	}
 	
 	private void usunStatkiZaMapa() {

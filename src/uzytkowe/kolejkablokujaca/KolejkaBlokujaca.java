@@ -13,12 +13,11 @@ import zdarzenia.ZdarzenieGry;
 public final class KolejkaBlokujaca {
 
 	private static final int ROZMIAR_KOLEJKI = 10;
-	static int i = 0;
 	private static BlockingQueue<ZdarzenieGry> kolejkaBlokujaca;
 	
 	private KolejkaBlokujaca() {}
 	
-	/** Tworzenie kolejki do obsługi zdarzeń z gry */
+	/** Tworzenie kolejki do obsługi zdarzeń z gry jeśli wcześniej nie była utworzona */
 	public static synchronized void stworzKolejke() {
 		if(kolejkaBlokujaca == null) {
 			kolejkaBlokujaca = new ArrayBlockingQueue<ZdarzenieGry>(ROZMIAR_KOLEJKI);
@@ -27,7 +26,7 @@ public final class KolejkaBlokujaca {
 
 	/** Pobiera kolejne Zdarzenie Przycisku z kolejki blokujacej
 	 * @return kolejne Zdarzenie Przycisku lub null w przypadku gdy nie ma więcej zdarzeń
-	 * @throws NullBlockingQueueException - jeśli kolejka nie została wcześniej utworzona
+	 * @throws NullBlockingQueueException jeśli kolejka nie została wcześniej utworzona
 	 */
 	public static ZdarzenieGry wezNastepneZdarzenieGry() {
 		if(kolejkaBlokujaca == null) {
@@ -48,19 +47,12 @@ public final class KolejkaBlokujaca {
 	public static void wstawZdarzenieGry(ZdarzenieGry zdarzenieGry) throws InterruptedException {
 		if(kolejkaBlokujaca == null) {
 			throw new NullBlockingQueueException();
-		}
-		
-		for(ZdarzenieGry zdarzenie : kolejkaBlokujaca) {
-			if(zdarzenie.equals(zdarzenieGry)) {
-				return;
-			}
-		}
-		
+		}		
 		kolejkaBlokujaca.put(zdarzenieGry);
-		
-		for(ZdarzenieGry zdarzenie : kolejkaBlokujaca) {
-			System.out.println(zdarzenie.getClass().getName());
-		}
+	}
+
+	public static boolean czyPusta() {
+		return kolejkaBlokujaca.isEmpty();
 	}
 	
 }

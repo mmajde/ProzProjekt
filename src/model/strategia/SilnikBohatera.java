@@ -3,6 +3,7 @@ package model.strategia;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Logger;
 
 import model.Pocisk;
 import model.RuchObiektem;
@@ -12,8 +13,8 @@ import uzytkowe.Przesuniecie;
 import uzytkowe.Wspolrzedne;
 import uzytkowe.Wymiary;
 
-public class SilnikBohatera {
-		
+public class SilnikBohatera {	
+	
 	private StatekBohatera statekBohatera;
 	private List<Pocisk> pociski;
 	private Wspolrzedne wspolrzedneBohatera;
@@ -32,13 +33,24 @@ public class SilnikBohatera {
 	}
 
 	public void dodajPocisk(Wspolrzedne wspolrzedne, double szybkosc) {
-//		tutaj try catch
-		pociski.add(new Pocisk(wspolrzedne, szybkosc));
+		try {
+			pociski.add(new Pocisk(wspolrzedne, szybkosc));
+		} catch(UnsupportedOperationException | IllegalArgumentException | NullPointerException | ClassCastException e) {
+			throw new RuntimeException();
+		}
 	}
 	
 	public void usunPocisk(Pocisk pocisk) {
-//		tutaj try catch
-		pociski.remove(pocisk);
+		try {
+			pociski.remove(pocisk);
+		} catch(ClassCastException e) {
+			System.out.println("Pocisk błędnego typu. " + e.getMessage());
+		} catch(NullPointerException e) {
+			System.out.println("Pocisk nie może być nullem. " + e.getMessage());
+		} catch(UnsupportedOperationException e) {
+			throw new RuntimeException();
+		}
+		
 	}
 	
 	public List<Wspolrzedne> getWspolrzednePociskow() {

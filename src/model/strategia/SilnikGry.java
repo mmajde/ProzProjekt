@@ -6,7 +6,7 @@ import statek.StatekWroga;
 import uzytkowe.PociskiIStatkiKolidujace;
 
 
-public class SilnikGry implements Strategia {
+public class SilnikGry {
 
 	private SilnikWroga silnikWroga;
 	private SilnikBohatera silnikBohatera;
@@ -16,8 +16,7 @@ public class SilnikGry implements Strategia {
 		this.silnikBohatera = silnikBohatera;
 	}
 
-	@Override
-	public void dzialanie() {
+	public void dzialaj() {
 		uruchomSilniki();
 		sprawdzIUsunKolizje();
 	}

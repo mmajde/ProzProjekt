@@ -4,13 +4,8 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-import zdarzenia.KolejnyMomentZdarzenie;
-import zdarzenia.ZdarzenieGry;
-import zdarzenia.ZdarzeniePrzycisku;
-
 import model.strategia.GenerujPocisk;
 import model.strategia.SilnikBohatera;
-import model.strategia.SilnikGry;
 import model.strategia.SilnikWroga;
 import model.strategia.Strategia;
 import model.strategia.UstawPrzesuniecieBohatera;
@@ -18,6 +13,8 @@ import model.strategia.UstawPrzesuniecieBohateraWDol;
 import model.strategia.UstawPrzesuniecieBohateraWGore;
 import model.strategia.UstawPrzesuniecieBohateraWLewo;
 import model.strategia.UstawPrzesuniecieBohateraWPrawo;
+import zdarzenia.ZdarzenieGry;
+import zdarzenia.ZdarzeniePrzycisku;
 
 
 public class Strateg {
@@ -34,10 +31,6 @@ public class Strateg {
 	}
 
 	public void organizujStrategie(SilnikWroga silnikWroga, SilnikBohatera silnikBohatera) {
-		// organizuj Strategia w throws a tam wyzej powinno sie oddzielic organizuj strategie do funkcji
-		// w ktorej bedzie sprawdzenie czy nie wystepuje blad
-		dodajStrategie(new KolejnyMomentZdarzenie(this), new SilnikGry(silnikWroga, silnikBohatera));
-		
 		// zrobic wyjatek jak nie ma tego przypisania
 		// side effect? - mozna podzielic to na 3 czesci i w czesci z przyciskami wywolywac najpierw
 		// metode PrzypisPrzesuniecie

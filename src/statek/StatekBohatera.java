@@ -6,7 +6,6 @@ public class StatekBohatera extends Statek {
 
 	public StatekBohatera(Wymiary wymiary) {
 		super(wymiary);
-		iloscZyc = 3;
 	}
 	
 }

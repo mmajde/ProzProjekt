@@ -9,8 +9,9 @@ import javax.swing.JFrame;
 
 public class Widok extends JFrame {
 
-	// magic numbers
-	private final Dimension ROZMIAR = new Dimension(800, 600);
+	private final int SZEROKOSC = 600;
+	private final int WYSOKOSC = 800;
+	private final Dimension ROZMIAR = new Dimension(WYSOKOSC, SZEROKOSC);
 	
 	private PoleBitwy poleBitwy;
 	private SluchaczZdarzenKlawiatury sluchaczZdarzenKlawiatury;

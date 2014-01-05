@@ -6,7 +6,6 @@ import uzytkowe.Wymiary;
 public class Statek extends ObiektGry {
 	
 	private Wymiary wymiary;
-	protected int iloscZyc;
 	
 	public Statek(Wymiary wymiary) {
 		this.wymiary = wymiary;
@@ -14,14 +13,6 @@ public class Statek extends ObiektGry {
 
 	public Wymiary getWymiary() {
 		return wymiary;
-	}
-	
-	public int getIloscZyc() {
-		return iloscZyc;
-	}
-	
-	public void strataZycia() {
-		iloscZyc--;
 	}
 	
 }

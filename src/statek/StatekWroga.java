@@ -6,7 +6,6 @@ public class StatekWroga extends Statek {
 
 	public StatekWroga(Wymiary wymiary) {
 		super(wymiary);
-		iloscZyc = 2;
 	}
 
 }
