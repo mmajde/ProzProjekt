@@ -3,7 +3,7 @@ package model;
 import uzytkowe.Przesuniecie;
 import uzytkowe.Wspolrzedne;
 
-/** Klasa posiadająca metodę statyczną poruszającą obiektami w grze */
+/** Posiada metodę statyczną poruszającą obiektami w grze */
 public class RuchObiektem {
 	
 	/**

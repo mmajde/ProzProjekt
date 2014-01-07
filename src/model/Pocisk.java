@@ -3,7 +3,7 @@ package model;
 import uzytkowe.Przesuniecie;
 import uzytkowe.Wspolrzedne;
 
-public class Pocisk extends ObiektGry {
+public class Pocisk {
 	
 	private Wspolrzedne wspolrzedne;
 	private Przesuniecie przesuniecie;

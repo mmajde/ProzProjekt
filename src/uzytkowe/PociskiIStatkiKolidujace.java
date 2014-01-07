@@ -7,7 +7,7 @@ import model.Pocisk;
 import statek.StatekWroga;
 
 /**
- * Przechowuje listę pocisków i statków wroga które biorą udział w zderzeniach
+ * Przechowuje 2 listy: pocisków i statków wroga które biorą udział w zderzeniach
  */
 public class PociskiIStatkiKolidujace {
 

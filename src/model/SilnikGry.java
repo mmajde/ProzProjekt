@@ -1,19 +1,18 @@
-package model.strategia;
+package model;
 
-import model.Kolizja;
-import model.Pocisk;
 import statek.StatekWroga;
 import uzytkowe.PociskiIStatkiKolidujace;
-
 
 public class SilnikGry {
 
 	private SilnikWroga silnikWroga;
 	private SilnikBohatera silnikBohatera;
+	private boolean koniecGry;
 	
 	public SilnikGry(SilnikWroga silnikWroga, SilnikBohatera silnikBohatera) {
 		this.silnikWroga = silnikWroga;
 		this.silnikBohatera = silnikBohatera;
+		koniecGry = false;
 	}
 
 	public void dzialaj() {
@@ -32,26 +31,27 @@ public class SilnikGry {
 	}
 
 	private void usunKolizjePociskuZWrogiem() {
-		// tu zastanowic sie nad jakims DTO do przekazywania argumentow
 		PociskiIStatkiKolidujace pociskiIStatkiKolidujace = Kolizja.pobierzKolizjePociskowZWrogami(
 				silnikWroga.getStatkiOrazIchWspolrzedne(), silnikWroga.getWymiaryStatku(), silnikBohatera.getPociski());
 		for(StatekWroga statekWrogaDoUsuniecia : pociskiIStatkiKolidujace.getStatkiWrogaKolidujace()) {
-			// try catch
 			silnikWroga.usunStatek(statekWrogaDoUsuniecia);
 		}
 		for(Pocisk pociskDoUsuniecia : pociskiIStatkiKolidujace.getPociskiKolidujace()) {
-			// try catch
-			// zastanowic sie czy w Silniku nie zrobic funkcji do usuwania danego obiektu z danej listy
 			silnikBohatera.usunPocisk(pociskDoUsuniecia);
 		}
 	}
 
 	private void usunKolizjeBohateraZWrogiem() {
 		StatekWroga kolidujacyStatekWroga = Kolizja.pobierzKolizjeWrogaZBohaterem(silnikWroga.getStatkiOrazIchWspolrzedne(), silnikWroga.getWymiaryStatku(), 
-				silnikBohatera.getWspolrzedneBohatera(), silnikBohatera.getWymiaryStatku());
-		if(kolidujacyStatekWroga != null){
+				silnikBohatera.getWspolrzedneBohatera(), silnikBohatera.getWymiaryBohatera());
+		if(kolidujacyStatekWroga != null) {
 			silnikWroga.usunStatek(kolidujacyStatekWroga);
+			koniecGry = true;
 		}
+	}
+	
+	public boolean czyKoniec() {
+		return koniecGry;
 	}
 
 }

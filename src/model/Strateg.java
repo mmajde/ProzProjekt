@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.strategia.GenerujPocisk;
-import model.strategia.SilnikBohatera;
-import model.strategia.SilnikWroga;
 import model.strategia.Strategia;
 import model.strategia.UstawPrzesuniecieBohatera;
 import model.strategia.UstawPrzesuniecieBohateraWDol;
@@ -19,52 +17,80 @@ import zdarzenia.ZdarzeniePrzycisku;
 
 public class Strateg {
 
+	private final double RUCH_BOHATERA = 1d;
+	private final double ZATRZYMANIE_BOHATERA = 0d;
+	
 	private Map<ZdarzenieGry, Strategia> mapaStrategii;
 	
-	public Strateg(SilnikWroga silnikWroga, SilnikBohatera silnikBohatera) {
+	public Strateg(SilnikBohatera silnikBohatera) {
 		inicjalizujPola();
-		organizujStrategie(silnikWroga, silnikBohatera);
+		organizujStrategie(silnikBohatera);
 	}
 
 	public void inicjalizujPola() {
+		// czy tutaj new RuntimeException()?
 		mapaStrategii = new HashMap<ZdarzenieGry, Strategia>(0);
 	}
 
-	public void organizujStrategie(SilnikWroga silnikWroga, SilnikBohatera silnikBohatera) {
-		// zrobic wyjatek jak nie ma tego przypisania
-		// side effect? - mozna podzielic to na 3 czesci i w czesci z przyciskami wywolywac najpierw
-		// metode PrzypisPrzesuniecie
+	/**
+	 * Tworzy wszystkie strategie w grze do obsługi zdarzeń
+	 * @param silnikBohatera - wymagany aby możliwe było wykonywanie przesunięć i generowanie pocisków
+	 */
+	public void organizujStrategie(SilnikBohatera silnikBohatera) {
 		UstawPrzesuniecieBohatera.PrzypiszPrzesuniecie(silnikBohatera.getPrzesuniecieBohatera());
-		// magic numbers
-		dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_UP, true), new UstawPrzesuniecieBohateraWGore(-1d));
-		dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_DOWN, true), new UstawPrzesuniecieBohateraWDol(1d));
-		dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_LEFT, true), new UstawPrzesuniecieBohateraWLewo(-1d));
-		dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_RIGHT, true), new UstawPrzesuniecieBohateraWPrawo(1d));
 
-		dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_UP, false), new UstawPrzesuniecieBohateraWGore(0d));
-		dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_DOWN, false), new UstawPrzesuniecieBohateraWDol(0d));
-		dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_LEFT, false), new UstawPrzesuniecieBohateraWLewo(0d));
-		dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_RIGHT, false), new UstawPrzesuniecieBohateraWPrawo(0d));
-		
-		dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_SPACE, false), new GenerujPocisk(silnikBohatera));
-
+		try {
+			dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_UP, true), new UstawPrzesuniecieBohateraWGore(-RUCH_BOHATERA));
+			dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_DOWN, true), new UstawPrzesuniecieBohateraWDol(RUCH_BOHATERA));
+			dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_LEFT, true), new UstawPrzesuniecieBohateraWLewo(-RUCH_BOHATERA));
+			dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_RIGHT, true), new UstawPrzesuniecieBohateraWPrawo(RUCH_BOHATERA));
+	
+			dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_UP, false), new UstawPrzesuniecieBohateraWGore(ZATRZYMANIE_BOHATERA));
+			dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_DOWN, false), new UstawPrzesuniecieBohateraWDol(ZATRZYMANIE_BOHATERA));
+			dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_LEFT, false), new UstawPrzesuniecieBohateraWLewo(ZATRZYMANIE_BOHATERA));
+			dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_RIGHT, false), new UstawPrzesuniecieBohateraWPrawo(ZATRZYMANIE_BOHATERA));
+			
+			dodajStrategie(new ZdarzeniePrzycisku(this, KeyEvent.VK_SPACE, false), new GenerujPocisk(silnikBohatera));
+		} catch (NullPointerException e) {
+			throw new RuntimeException();
+		}
 	}
 	
-	private void dodajStrategie(ZdarzenieGry zdarzenieGry, Strategia strategia) {
-		// try catch a raczej throws
-		mapaStrategii.put(zdarzenieGry, strategia);
+	private void dodajStrategie(ZdarzenieGry zdarzenieGry, Strategia strategia) throws NullPointerException{
+		try {
+			mapaStrategii.put(zdarzenieGry, strategia);
+		} catch (UnsupportedOperationException | ClassCastException | IllegalArgumentException e) {
+			throw new RuntimeException();
+		}
 	}
 	
 	public void dzialaj(ZdarzenieGry zdarzenieGry) {
-		Strategia strategia = wezStrategie(zdarzenieGry);
+		if(zdarzenieGry == null) {
+			return;
+		}
+		Strategia strategia = pobierzStrategie(zdarzenieGry);
 		if(strategia != null) {
 			strategia.dzialanie();
 		}	
 	}
 
-	private Strategia wezStrategie(ZdarzenieGry zdarzenieGry) {
-		// tutaj try catch
-		Strategia strategia = mapaStrategii.get(zdarzenieGry);
+	private Strategia pobierzStrategie(ZdarzenieGry zdarzenieGry) {
+		Strategia strategia;
+		try {
+			strategia = wezStrategie(zdarzenieGry);
+		} catch (NullPointerException e) {
+			throw new RuntimeException();
+		}
+		return strategia;
+	}
+
+	private Strategia wezStrategie(ZdarzenieGry zdarzenieGry) throws NullPointerException {
+		Strategia strategia; 
+		try {
+			strategia = mapaStrategii.get(zdarzenieGry);
+		} catch (ClassCastException e) {
+			throw new RuntimeException();
+		}
 		return strategia;
 	}
 	

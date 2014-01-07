@@ -2,11 +2,9 @@ package model;
 
 import java.awt.Dimension;
 
-import model.strategia.SilnikBohatera;
-import model.strategia.SilnikGry;
-import model.strategia.SilnikWroga;
 import uzytkowe.Makieta;
 import uzytkowe.kolejkablokujaca.KolejkaBlokujaca;
+import wyjatki.NullBlockingQueueException;
 import zdarzenia.ZdarzenieGry;
 
 public class Model {
@@ -20,19 +18,33 @@ public class Model {
 		SilnikWroga silnikWroga = new SilnikWroga(makieta);
 		SilnikBohatera silnikBohatera = new SilnikBohatera(makieta);
 		silnikGry = new SilnikGry(silnikWroga, silnikBohatera);
-		strateg = new Strateg(silnikWroga, silnikBohatera);
+		strateg = new Strateg(silnikBohatera);
 	}
 
-	public void zarzadzajZdarzeniami() {
+	/**
+	 * Uruchamia główny silnik gry i zarządza zdarzeniami gry
+	 * @throws NullBlockingQueueException jeśli kolejka blokująca nie została wcześniej utworzona
+	 */
+	public void dzialanieModelu() throws NullBlockingQueueException {
 		silnikGry.dzialaj();
-		while(!KolejkaBlokujaca.czyPusta()) {
+		while(czyIstniejeZdarzenieWKolejce()) {
 			ZdarzenieGry nastepneZdarzenieGry = KolejkaBlokujaca.wezNastepneZdarzenieGry();
 			strateg.dzialaj(nastepneZdarzenieGry);
 		}
 	}
+
+	private boolean czyIstniejeZdarzenieWKolejce() throws NullBlockingQueueException {
+		boolean czyIstniejeZdarzenie = false;
+		czyIstniejeZdarzenie = KolejkaBlokujaca.czyPusta();
+		return !czyIstniejeZdarzenie;
+	}
 	
 	public Makieta getMakieta() {
 		return makieta;
+	}
+
+	public boolean sprawdzCzyKoniecGry() {
+		return silnikGry.czyKoniec();
 	}
 
 }

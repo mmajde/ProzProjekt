@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 public class Widok extends JFrame {
 
 	private final int SZEROKOSC = 600;
-	private final int WYSOKOSC = 800;
+	private final int WYSOKOSC = 600;
 	private final Dimension ROZMIAR = new Dimension(WYSOKOSC, SZEROKOSC);
 	
 	private PoleBitwy poleBitwy;

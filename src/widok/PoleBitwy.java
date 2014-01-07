@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -13,15 +14,22 @@ import javax.swing.JPanel;
 import uzytkowe.Makieta;
 import uzytkowe.Wspolrzedne;
 
+/**
+ * Przechowuje makietę oraz obrazki do rysowania elementów na mapie
+ */
 public class PoleBitwy extends JPanel {
 
+	private final Logger LOG = Logger.getLogger("log");
+	
 	private final String SCIEZKA_IKONY_BOHATERA = "//home//majde//java_workspace//Statki_kosmiczne//images//bohaternext1.png";
-	private final String SCIEZKA_IKONY_WROGA = "//home//majde//java_workspace//Statki_kosmiczne//images//wrog.png";
-	private final String SCIEZKA_IKONY_POCISKU = "//home//majde//java_workspace//Statki_kosmiczne//images//missile.png";
+	private final String SCIEZKA_IKONY_WROGA = "//home//majde//java_workspace//Statki_kosmiczne//images//enemy.png";
+	private final String SCIEZKA_IKONY_POCISKU = "//home//majde//java_workspace//Statki_kosmiczne//images//pocisk.png";
+	private final String SCIEZKA_TLA = "//home//majde//java_workspace//Statki_kosmiczne//images//gwiazdy3.png";
 	
 	private Image obrazekBohatera;
 	private Image obrazekWroga;
 	private Image obrazekPocisku;
+	private Image tlo;
 	private Makieta makieta;
 	
 	public PoleBitwy() {
@@ -29,17 +37,22 @@ public class PoleBitwy extends JPanel {
 		setDoubleBuffered(true);
 		
 		ustawObrazkiObiektowGry();
+		ustawTlo();
 
     	setVisible(true);
 	}
 
-	public void ustawObrazkiObiektowGry() {
-		obrazekBohatera = ustawIkone(SCIEZKA_IKONY_BOHATERA);
-		obrazekWroga = ustawIkone(SCIEZKA_IKONY_WROGA);
-		obrazekPocisku = ustawIkone(SCIEZKA_IKONY_POCISKU);
+	private void ustawTlo() {
+		tlo = ustawObraz(SCIEZKA_TLA);
 	}
 
-	private Image ustawIkone(String sciezkaIkony) {
+	public void ustawObrazkiObiektowGry() {
+		obrazekBohatera = ustawObraz(SCIEZKA_IKONY_BOHATERA);
+		obrazekWroga = ustawObraz(SCIEZKA_IKONY_WROGA);
+		obrazekPocisku = ustawObraz(SCIEZKA_IKONY_POCISKU);
+	}
+
+	private Image ustawObraz(String sciezkaIkony) {
 		ImageIcon ikona = new ImageIcon(sciezkaIkony);
 		return ikona.getImage();
 	}
@@ -58,23 +71,31 @@ public class PoleBitwy extends JPanel {
 			return;
 		}
 		
-		if(makieta.getWspolrzedneStatkuBohatera() != null) {
-			rysujObiekty(obrazekBohatera, opakujWspolrzedneStatkuBohateraWListe(), rysownik);
+		rysownik.drawImage(tlo, 0, 0, this);
+		
+		if(makieta.getWspolrzednePociskow() != null) {
+			rysujObiekty(obrazekPocisku, makieta.getWspolrzednePociskow(), rysownik);
 		}
-
+		
 		if(makieta.getWspolrzedneStatkowWroga() != null) {
 			rysujObiekty(obrazekWroga, makieta.getWspolrzedneStatkowWroga(), rysownik);
 		}
 		
-		if(makieta.getWspolrzednePociskow() != null) {
-			rysujObiekty(obrazekPocisku, makieta.getWspolrzednePociskow(), rysownik);
+		if(makieta.getWspolrzedneStatkuBohatera() != null) {
+			rysujObiekty(obrazekBohatera, opakujWspolrzedneStatkuBohateraWListe(), rysownik);
 		}
 		
 	}
 
 	private List<Wspolrzedne> opakujWspolrzedneStatkuBohateraWListe() {
 		List<Wspolrzedne> opakowanieWspolrzednychBohatera = new ArrayList<Wspolrzedne>();
-		opakowanieWspolrzednychBohatera.add(makieta.getWspolrzedneStatkuBohatera());
+		try {
+			opakowanieWspolrzednychBohatera.add(makieta.getWspolrzedneStatkuBohatera());
+		} catch (NullPointerException e) {
+			LOG.info("Wspolrzedne statku bohatera nie moga byc nullem. " + e.getMessage());
+		} catch (UnsupportedOperationException | ClassCastException | IllegalArgumentException e) {
+			throw new RuntimeException();
+		}
 		return opakowanieWspolrzednychBohatera;
 	}
 	

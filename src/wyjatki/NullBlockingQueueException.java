@@ -6,6 +6,6 @@ package wyjatki;
 public class NullBlockingQueueException extends RuntimeException {
 
 	public NullBlockingQueueException() {
-		super();
+		super("Kolejka powinna być wcześniej utworzona metodą StworzKolejke.");
 	}
 }

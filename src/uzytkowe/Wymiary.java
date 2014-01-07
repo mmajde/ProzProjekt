@@ -8,7 +8,16 @@ public class Wymiary {
 	private double szerokosc;
 	private double wysokosc;
 	
-	public Wymiary(double szerokosc, double wysokosc) {
+	/**
+	 * Tworzy obiekt przechowujący wymiary danego obiektu w grze
+	 * @param szerokosc - szerokosc danego obiektu
+	 * @param wysokosc - wysokosc danego obiektu
+	 * @throws IllegalArgumentException szerokosc lub wysokosc jest ujemna
+	 */
+	public Wymiary(double szerokosc, double wysokosc) throws IllegalArgumentException{
+		if(szerokosc < 0 || wysokosc < 0) {
+			throw new IllegalArgumentException();
+		}
 		this.szerokosc = szerokosc;
 		this.wysokosc = wysokosc;
 	}
@@ -28,6 +37,5 @@ public class Wymiary {
 	public void setWysokosc(double wysokosc) {
 		this.wysokosc = wysokosc;
 	}
-	
 	
 }
