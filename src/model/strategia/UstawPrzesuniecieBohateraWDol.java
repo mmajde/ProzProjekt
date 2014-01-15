@@ -2,9 +2,11 @@ package model.strategia;
 
 public class UstawPrzesuniecieBohateraWDol extends UstawPrzesuniecieBohatera {
 	
-	public UstawPrzesuniecieBohateraWDol(double przesuniecie) {
-		this.przesuniecie = przesuniecie;
-	}
+	private final double przesuniecieWDol = -1d;
+	
+//	public UstawPrzesuniecieBohateraWDol(double przesuniecie) {
+//		this.przesuniecie = przesuniecie;
+//	}
 
 	@Override
 	public void dzialanie() {

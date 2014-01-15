@@ -1,11 +1,12 @@
 package statek;
 
+import model.ObiektGry;
 import uzytkowe.Wymiary;
 
 /**
  * Nadrzędna klasa dla wszystkich statków grze
  */
-public class Statek {
+public class Statek extends ObiektGry {
 	
 	private Wymiary wymiary;
 	

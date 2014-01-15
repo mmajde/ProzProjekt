@@ -6,7 +6,7 @@ import uzytkowe.Przesuniecie;
  * Klasa bazowa dla strategii sterujących bohaterem.
  * Przed wykorzystaniem każdej klasy pochodnej musi być wywołana metoda PrzypiszPrzesuniecie
  */
-public abstract class UstawPrzesuniecieBohatera implements Strategia{
+public abstract class UstawPrzesuniecieBohatera implements Strategia {
 
 	protected static Przesuniecie PrzesuniecieBohatera;
 	protected double przesuniecie;

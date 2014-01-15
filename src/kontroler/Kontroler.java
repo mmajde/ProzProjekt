@@ -7,80 +7,96 @@ import uzytkowe.Makieta;
 import widok.Widok;
 import wyjatki.NullBlockingQueueException;
 
-public class Kontroler {
+public class Kontroler
+{
 
-	private final Logger LOG = Logger.getLogger("log");
-	
-	private final long CZAS_CZEKANIA = 5;
-	private long czasPrzedObslugaGry;
-	private long czasPoObsludzeGry;
-	
-	private Widok widok;
-	private Model model;
-	
-	private boolean koniecGry;
-	
+    private final Logger LOG = Logger.getLogger("log");
 
-	public Kontroler() {
-		widok = new Widok();
-		model = new Model(widok.getRozmiar());
-		
-		czasPrzedObslugaGry = 0;
-		czasPoObsludzeGry = 0;
-		
-		koniecGry = false;	
-	}
+    private final long CZAS_CZEKANIA = 5;
+    private long czasPrzedObslugaGry;
+    private long czasPoObsludzeGry;
 
-	public void uruchom() {		
-		while(true) {			
-			czekaj();
-			ustawCzasPrzedPracaGry();	
-			pracaGry();			
-			ustawCzasPoPracyGry();
-			if(koniecGry) {
-				return;
-			}
-		}
-	}
+    private Widok widok;
+    private Model model;
 
-	public void pracaGry() {
-		try {
-			model.dzialanieModelu();
-		} catch (NullBlockingQueueException e) {
-			LOG.info("Kolejka blokująca nie zostałą utworzona.");
-		}
-		koniecGry = model.sprawdzCzyKoniecGry();
-		Makieta makieta = model.getMakieta();
-		widok.getPoleBitwy().rysujPoleBitwy(makieta);
-	}
+    private boolean koniecGry;
 
-	public void ustawCzasPoPracyGry() {
-		czasPoObsludzeGry = System.currentTimeMillis();
-	}
+    public Kontroler()
+    {
+        this.widok = new Widok();
+        this.model = new Model(widok.getRozmiar());
 
-	public void ustawCzasPrzedPracaGry() {
-		czasPrzedObslugaGry = System.currentTimeMillis();
-	}
+        czasPrzedObslugaGry = 0;
+        czasPoObsludzeGry = 0;
 
-	private void czekaj() {
-		long roznica = czasPoObsludzeGry - czasPrzedObslugaGry;
-		if(roznica < 0) {
-			throw new RuntimeException();
-		}
-		
-		if(roznica < CZAS_CZEKANIA) {
-			uspijWatek(roznica);
-		}
-	}
+        koniecGry = false;
+    }
 
-	public void uspijWatek(long roznica) {
-		try {
-			Thread.sleep(CZAS_CZEKANIA - roznica);
-		} catch (InterruptedException e) {
-			LOG.info("Wątek przerwany podczas uśpienia.");
-		} catch (IllegalArgumentException e) {
-			throw new RuntimeException();
-		}
-	}
-     
+    public void uruchom()
+    {
+        while (true)
+        {
+            czekaj();
+            ustawCzasPrzedPracaGry();
+            pracaGry();
+            ustawCzasPoPracyGry();
+            if (koniecGry)
+            {
+                return;
+            }
+        }
+    }
+
+    public void pracaGry()
+    {
+        try
+        {
+            model.dzialanieModelu();
+        } catch (NullBlockingQueueException e)
+        {
+            LOG.info("Kolejka blokująca nie zostałą utworzona.");
+        }
+        koniecGry = model.sprawdzCzyKoniecGry();
+        Makieta makieta = model.getMakieta();
+        widok.getPoleBitwy().rysujPoleBitwy(makieta);
+    }
+
+    public void ustawCzasPoPracyGry()
+    {
+        czasPoObsludzeGry = System.currentTimeMillis();
+    }
+
+    public void ustawCzasPrzedPracaGry()
+    {
+        czasPrzedObslugaGry = System.currentTimeMillis();
+    }
+
+    private void czekaj()
+    {
+        long roznica = czasPoObsludzeGry - czasPrzedObslugaGry;
+        if (roznica < 0)
+        {
+            throw new RuntimeException();
+        }
+
+        if (roznica < CZAS_CZEKANIA)
+        {
+            uspijWatek(roznica);
+        }
+    }
+
+    public void uspijWatek(long roznica)
+    {
+        try
+        {
+            Thread.sleep(CZAS_CZEKANIA - roznica);
+        } catch (InterruptedException e)
+        {
+            LOG.info("Wątek przerwany podczas uśpienia.");
+        } catch (IllegalArgumentException e)
+        {
+            throw new RuntimeException();
+        }
+    }
+
 }
