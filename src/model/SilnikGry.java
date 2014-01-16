@@ -60,7 +60,7 @@ public class SilnikGry
     private void sprawdzKolizje()
     {
         kolizja.sprawdzKolizje(silnikWroga.getStatkiOrazIchWspolrzedne(), 
-                silnikBohatera.getWspolrzedneBohatera(), silnikBohatera.getPociski());
+                silnikBohatera.getWspolrzedneStatkuBohatera(), silnikBohatera.getPociski());
     }
 
     /**

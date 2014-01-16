@@ -11,23 +11,34 @@ import uzytkowe.Wspolrzedne;
 import uzytkowe.Wymiary;
 
 /**
+ * Zarządza bohaterem w grze.
+ * 
  * @author Marek Majde
  * 
  */
 public class SilnikBohatera
 {
-
+    /** Szerokość statku bohatera w grze. */
     private final double SZEROKOSC_STATKU = 15.0;
+    /** Długość statku bohatera w grze. */
     private final double DLUGOSC_STATKU = 35.0;
 
-    private StatekBohatera statekBohatera;
+    /** Statek Bohatera. */
+    private final StatekBohatera statekBohatera;
+    /** Współrzędne statku bohatera na mapie. */
     private Wspolrzedne wspolrzedneBohatera;
-    private Przesuniecie przesuniecieBohatera;
-    private Wymiary wymiaryBohatera;
-    private List<Pocisk> pociski;
-    private Makieta makieta;
-    private double szerokoscMapy;
-    private double wysokoscMapy;
+    /** Przesunięcie bohatera w grze. */
+    private final Przesuniecie przesuniecieBohatera;
+    /** Wymiary statku bohatera. */
+    private final Wymiary wymiaryBohatera;
+    /** Lista z pociskami wystrzelonymi przez bohatera. */
+    private final List<Pocisk> pociski;
+    /** Makieta przechowująca wszystkie współrzędne obiektów na mapie. */
+    private final Makieta makieta;
+    /** Szerokość mapy. */
+    private final double szerokoscMapy;
+    /** Wysokość mapy. */
+    private final double wysokoscMapy;
 
     public SilnikBohatera(final Makieta makieta)
     {
@@ -41,41 +52,35 @@ public class SilnikBohatera
         this.pociski = new CopyOnWriteArrayList<Pocisk>();
     }
 
+
     /**
-     * @return
+     * Uruchamia silnik bohatera. Przesuwa bohatera oraz pociski przez niego wystrzelone.
+     * Usuwa pociski za mapą oraz ustawia bohatera i pociski na makiecie. 
      */
-    private Wspolrzedne dolnySrodekMapy()
+    public void dzialaj()
     {
-        double srodekMapy = makieta.getRozmiar().getWidth() / 2;
-        double dolMapy = makieta.getRozmiar().getHeight() - statekBohatera.getWymiary().getWysokosc()
-                * 2;
-        return new Wspolrzedne(srodekMapy, dolMapy);
+        przesunBohateraIPociski();
+        usunPociskiZaMapa();
+        ustawBohateraIPociskiNaMakiecie();
     }
 
     /**
-     * Dodaje kolejny pocisk do listy pocisków
+     * Dodaje kolejny pocisk do listy pocisków.
      * 
-     * @param wspolrzedne pocisku
-     * @param szybkosc pocisku
+     * @param wspolrzedne pocisku - miejsce na mapie gdzie umieszczony będzie kolejny pocisk.
+     * @param szybkosc pocisku - szybkość z jaką porusza się pocisk.
      */
     public void dodajPocisk(final Wspolrzedne wspolrzedne, final double szybkosc)
     {
-        try
-        {
             pociski.add(new Pocisk(wspolrzedne, szybkosc));
-        } catch (UnsupportedOperationException | IllegalArgumentException | NullPointerException
-                | ClassCastException e)
-        {
-            throw new RuntimeException();
-        }
     }
 
     /**
-     * @param pocisk
+     * Usuwa dany pocisk z listy pocisków.
      * 
-     * @throws NullPointerException
+     * @param pocisk - pocisk który ma być usunięty z listy.
      */
-    public void usunPocisk(final Pocisk pocisk) throws NullPointerException
+    public void usunPocisk(final Pocisk pocisk)
     {
         try
         {
@@ -83,14 +88,13 @@ public class SilnikBohatera
         } catch (NullPointerException e)
         {
             e.printStackTrace();
-        } catch (ClassCastException | UnsupportedOperationException e)
-        {
-            throw new RuntimeException();
         }
     }
 
     /**
-     * @return
+     * Generuje listę ze współrzędnymi wszystkich pocisków na podstawie listy pocisków.
+     * 
+     * @return listę ze współrzędymi pocisków na mapie.
      */
     public List<Wspolrzedne> getWspolrzednePociskow()
     {
@@ -101,10 +105,62 @@ public class SilnikBohatera
         }
         return wspolrzednePociskow;
     }
+    
+    /**
+     * Zwraca wymiary statku bohatera.
+     * 
+     * @return wymiary statku.
+     */
+    public Wymiary getWymiaryStatkuBohatera()
+    {
+        return wymiaryBohatera;
+    }
 
     /**
-     * @param wspolrzednePociskow
-     * @param pocisk
+     * Zwraca współrzędne statku bohatera.
+     *  
+     * @return współrzędne statku.
+     */
+    public Wspolrzedne getWspolrzedneStatkuBohatera()
+    {
+        return wspolrzedneBohatera;
+    }
+
+    /**
+     * Zwraca przesunięcie bohatera.
+     * 
+     * @return przesunięcie bohatera.
+     */
+    public Przesuniecie getPrzesuniecieBohatera()
+    {
+        return przesuniecieBohatera;
+    }
+
+    /**
+     * Zwraca statek bohatera.
+     * 
+     * @return statek bohatera.
+     */
+    public StatekBohatera getStatekBohatera()
+    {
+        return statekBohatera;
+    }
+
+    /**
+     * Zwraca pociski wystrzelone przez bohatera.
+     * 
+     * @return listę z pociskami.
+     */
+    public List<Pocisk> getPociski()
+    {
+        return pociski;
+    }
+    
+    /**
+     * Dodaje współrzędne danego pocisku do listy ze wszystkimi współrzędnymi pocisków.
+     * 
+     * @param wspolrzednePociskow - lista ze współrzędnymi wszystkich pocisków.
+     * @param pocisk - obiekt który ma być dodany do listy.
      */
     private void dodajWspolrzednePociskuDoListy(List<Wspolrzedne> wspolrzednePociskow,
             final Pocisk pocisk)
@@ -112,25 +168,28 @@ public class SilnikBohatera
         try
         {
             wspolrzednePociskow.add(pocisk.getWspolrzedne());
-        } catch (UnsupportedOperationException | IllegalArgumentException 
-                | NullPointerException | ClassCastException e)
+        } catch (NullPointerException e)
         {
-            throw new RuntimeException();
+            e.printStackTrace();
         }
     }
 
     /**
-	 * 
-	 */
-    public void dzialaj()
+     * Oblicza współrzędne dolnego środka mapy.
+     * 
+     * @return współrzędne dolnego środka mapy.
+     */
+    private Wspolrzedne dolnySrodekMapy()
     {
-        przesunBohateraIPociski();
-        usunPociskiZaMapa();
-        ustawBohateraIPociskiNaMakiecie();
+        double srodekMapy = makieta.getRozmiar().getWidth() / 2;
+        double dolMapy = makieta.getRozmiar().getHeight() 
+                - (statekBohatera.getWymiary().getWysokosc()* 2);
+        
+        return new Wspolrzedne(srodekMapy, dolMapy);
     }
-
+    
     /**
-	 * 
+	 * Przegląda listę pocisków i usuwa te leżące poza mapą.
 	 */
     private void usunPociskiZaMapa()
     {
@@ -144,7 +203,7 @@ public class SilnikBohatera
     }
 
     /**
-	 * 
+	 * Ustawia bohatera oraz wszystkie pociski na makiecie.
 	 */
     private void ustawBohateraIPociskiNaMakiecie()
     {
@@ -153,34 +212,36 @@ public class SilnikBohatera
     }
 
     /**
-	 * 
+	 * Przesuwa bohatera oraz wszystkie pociski.
 	 */
     private void przesunBohateraIPociski()
     {
-        Wspolrzedne noweWspolrzedneBohatera = statekBohatera.przesun(
-                wspolrzedneBohatera, przesuniecieBohatera);
+        Wspolrzedne noweWspolrzedneBohatera = 
+                statekBohatera.przesun(wspolrzedneBohatera, przesuniecieBohatera);
         if (czyBohaterNaMapie(noweWspolrzedneBohatera))
         {
             wspolrzedneBohatera = noweWspolrzedneBohatera;
         }
         for (Pocisk pocisk : pociski)
         {
-            Wspolrzedne noweWspolrzednePocisku = pocisk.przesun(
-                    pocisk.getWspolrzedne(), pocisk.getPrzesuniecie());
+            Wspolrzedne noweWspolrzednePocisku = 
+                    pocisk.przesun(pocisk.getWspolrzedne(), pocisk.getPrzesuniecie());
             pocisk.setWspolrzedne(noweWspolrzednePocisku);
         }
     }
 
     /**
-     * @param noweWspolrzedne
-     * @return
+     * Sprawdza czy nowe współrzędne bohatera znajdują się na mapie czy poza nią.
+     * 
+     * @param noweWspolrzedneBohatera - nowe współrzędne wyliczone po przesunięciu bohatera.
+     * 
+     * @return True jeśli nowe współrzędne bohatera znajdują się na mapie. False w przeciwnym przypadku.
      */
-    private boolean czyBohaterNaMapie(final Wspolrzedne noweWspolrzedne)
+    private boolean czyBohaterNaMapie(final Wspolrzedne noweWspolrzedneBohatera)
     {
-        if (noweWspolrzedne.getX() > szerokoscMapy - wymiaryBohatera.getSzerokosc() * 2
-                || noweWspolrzedne.getX() < 0
-                || noweWspolrzedne.getY() > wysokoscMapy - wymiaryBohatera.getWysokosc() * 2
-                || noweWspolrzedne.getY() < 0)
+        if (noweWspolrzedneBohatera.getX() > szerokoscMapy - wymiaryBohatera.getSzerokosc() * 2
+                || noweWspolrzedneBohatera.getY() > wysokoscMapy - wymiaryBohatera.getWysokosc() * 2
+                || noweWspolrzedneBohatera.getX() < 0 || noweWspolrzedneBohatera.getY() < 0)
         {
             return false;
         }
@@ -188,51 +249,14 @@ public class SilnikBohatera
     }
 
     /**
-     * @param pocisk
-     * @return
+     * Sprawdza czy pocisk znajduje się na mapie.
+     * 
+     * @param pocisk - obiekt którego obecność na mapie sprawdzamy.
+     * 
+     * @return True jeśli pocisk znajduje się na mapie. False w przeciwnym przypadku.
      */
     private boolean czyPociskNaMapie(final Pocisk pocisk)
     {
         return pocisk.getWspolrzedne().getY() > 0;
-    }
-
-    /**
-     * @return
-     */
-    public Wymiary getWymiaryStatkuBohatera()
-    {
-        return wymiaryBohatera;
-    }
-
-    /**
-     * @return
-     */
-    public Wspolrzedne getWspolrzedneBohatera()
-    {
-        return wspolrzedneBohatera;
-    }
-
-    /**
-     * @return
-     */
-    public Przesuniecie getPrzesuniecieBohatera()
-    {
-        return przesuniecieBohatera;
-    }
-
-    /**
-     * @return
-     */
-    public StatekBohatera getStatekBohatera()
-    {
-        return statekBohatera;
-    }
-
-    /**
-     * @return
-     */
-    public List<Pocisk> getPociski()
-    {
-        return pociski;
     }
 }

@@ -1,14 +1,15 @@
 package zdarzenia;
 
-import java.util.EventObject;
 
-public abstract class ZdarzenieGry extends EventObject {
-
-	public ZdarzenieGry(Object source) {
-		super(source);
-	}
-	
-	public abstract int hashCode();
-	public abstract boolean equals(Object obiekt);
+/**
+ * Abstrakcyjna klasa nadrzędna wszystkich zdarzeń w grze.
+ * 
+ * @author Marek Majde
+ *
+ */
+public abstract class ZdarzenieGry {
+    
+//	public abstract int hashCode();
+//	public abstract boolean equals(Object obiekt);
 
 }

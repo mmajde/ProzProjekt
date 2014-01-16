@@ -2,11 +2,17 @@ package widok;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import uzytkowe.kolejkablokujaca.KolejkaBlokujaca;
 import wyjatki.NullBlockingQueueException;
+import zdarzenia.WcisnietyPrzyciskWDolZdarzenie;
+import zdarzenia.WcisnietyPrzyciskWGoreZdarzenie;
+import zdarzenia.WcisnietyPrzyciskWLewoZdarzenie;
+import zdarzenia.WcisnietyPrzyciskWPrawoZdarzenie;
+import zdarzenia.ZdarzenieGry;
 import zdarzenia.ZdarzeniePrzycisku;
 
 /**
@@ -14,6 +20,10 @@ import zdarzenia.ZdarzeniePrzycisku;
  */
 public class SluchaczZdarzenKlawiatury extends KeyAdapter
 {
+    /** Przechowuje pary: numer przycisku - zdarzenie klawiatury */
+    final Map<Integer, ZdarzenieKlawiatury> mapaPrzyciskow = new HashMap<Integer, ZdarzenieKlawiatury>();
+    /** Wartość dodawana do klucza w przypadku puszczenia przycisku */
+    final int WARTOSC_DODAWANA = 57;
 
     private final Logger LOG = Logger.getLogger("log");
 
@@ -22,15 +32,59 @@ public class SluchaczZdarzenKlawiatury extends KeyAdapter
         KolejkaBlokujaca.stworzKolejke();
     }
 
-    public void keyPressed(KeyEvent keyEvent)
+    /**
+     * Metoda wypełniająca mapę przycisków. Powiązuje kod wciśniętego przycisku
+     * z określonym zdarzeniem.
+     */
+    public void wypelnijMapePrzyciskow() 
+    {   
+        dodajZdarzenieDlaPrzycisku(KeyEvent.VK_UP, new WcisnietyPrzyciskWGoreZdarzenie());
+        dodajZdarzenieDlaPrzycisku(KeyEvent.VK_DOWN, new WcisnietyPrzyciskWDolZdarzenie());
+        dodajZdarzenieDlaPrzycisku(KeyEvent.VK_RIGHT, new WcisnietyPrzyciskWPrawoZdarzenie());
+        dodajZdarzenieDlaPrzycisku(KeyEvent.VK_LEFT, new WcisnietyPrzyciskWLewoZdarzenie());
+    }
+
+    /**
+     * Dodaje do mapy przycisków odpowiednie zdarzenia klawiatury, 
+     * które zawierają metodę wstawiającą odpowiednie zdarzenie gry do kolejki blokującej.
+     * 
+     * @param kodPrzycisku - wartość integer wciśniętego przycisku będąca kluczem mapy.
+     * @param noweZdarzenieGry - zdarzenie gry wstawiane do kolejki blokującej w przypadku wciśnięcia
+     * danego przycisku.
+     */
+    private void dodajZdarzenieDlaPrzycisku(final int kodPrzycisku, final ZdarzenieGry noweZdarzenieGry)
     {
-        try
+        mapaPrzyciskow.put(kodPrzycisku, new ZdarzenieKlawiatury() {
+            @Override
+            public void dodajZdarzenieDoKolejki()
+            {
+                try
+                {
+                    KolejkaBlokujaca.wstawZdarzenieGry(noweZdarzenieGry);
+                } catch (NullBlockingQueueException | InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    
+    public void keyPressed(final KeyEvent keyEvent)
+    {
+        try 
         {
-            wstawDoKolejki(keyEvent, true);
-        } catch (InterruptedException e)
-        {
-            LOG.info("Watek przerwany podczas oczekiwania. " + e.getMessage());
+            ZdarzenieKlawiatury wcisnietyPrzycisk = mapaPrzyciskow.get(keyEvent.getKeyCode());
+            wcisnietyPrzycisk.dodajZdarzenieDoKolejki();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
+//        try
+//        {
+//            wstawDoKolejki(keyEvent, true);
+//        } catch (InterruptedException e)
+//        {
+//            LOG.info("Watek przerwany podczas oczekiwania. " + e.getMessage());
+//        }
     }
 
     public void keyReleased(KeyEvent keyEvent)
@@ -70,6 +124,11 @@ public class SluchaczZdarzenKlawiatury extends KeyAdapter
             throw new RuntimeException();
         }
 
+    }
+
+    private void wstawZdarzenieDoKolejki(ZdarzenieGry noweZdarzenieGry)
+    {
+        
     }
 
 }

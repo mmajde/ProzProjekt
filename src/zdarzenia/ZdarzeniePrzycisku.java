@@ -21,7 +21,6 @@ public class ZdarzeniePrzycisku extends ZdarzenieGry
      */
     public ZdarzeniePrzycisku(Object source, int kodPrzycisku, boolean czyWcisniety)
     {
-        super(source);
         this.kodPrzycisku = kodPrzycisku;
         this.wcisniety = czyWcisniety;
     }

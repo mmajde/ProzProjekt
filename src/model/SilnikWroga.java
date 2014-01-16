@@ -20,7 +20,6 @@ import uzytkowe.Wymiary;
  */
 public class SilnikWroga
 {
-
     /** Określa maksymalną dopuszczalną liczbę statków na mapie. */
     private final int MAX_LICZBA_STATKOW = 50;
     /** Wartość o którą przesuwa się każdy statek wroga. */
@@ -61,7 +60,7 @@ public class SilnikWroga
     }
 
     /**
-     * Wowyluje metody kontrolujace ustawieniem statkow na mapie i na makiecie
+     * Wowyłuje metody kontrolujace ustawieniem statkow na mapie i na makiecie.
      */
     public void dzialaj()
     {
@@ -88,6 +87,37 @@ public class SilnikWroga
         }
     }
 
+
+    /**
+     * Zwraca listę współrzędnych statków wroga stworzoną na podstawię mapy statków i ich współrzędnych.
+     * 
+     * @return listę ze współrzędnymi wszystkich statków wroga.
+     */
+    public List<Wspolrzedne> getWspolrzedneStatkow()
+    {
+        return new ArrayList<Wspolrzedne>(statkiIWspolrzedne.values());
+    }
+
+    /**
+     * Zwraca mapę statków wraz z ich współrzędnymi.
+     * 
+     * @return statki wroga zmapowane ze swoimi współrzędnymi.
+     */
+    public Map<StatekWroga, Wspolrzedne> getStatkiOrazIchWspolrzedne()
+    {
+        return statkiIWspolrzedne;
+    }
+
+    /**
+     * Zwraca wymiary statku wroga.
+     * 
+     * @return wymiary statku wroga.
+     */
+    public Wymiary getWymiaryStatkuWroga()
+    {
+        return wymiaryStatku;
+    }
+    
     /**
      * Usuwa statki wroga które znajdują się za mapą.
      */
@@ -203,35 +233,5 @@ public class SilnikWroga
             List<Wspolrzedne> wspolrzedneStatkow = 
                     new ArrayList<Wspolrzedne>(statkiIWspolrzedne.values());
             makieta.setWspolrzedneStatkowWroga(wspolrzedneStatkow);
-    }
-
-    /**
-     * Zwraca listę współrzędnych statków wroga stworzoną na podstawię mapy statków i ich współrzędnych.
-     * 
-     * @return listę ze współrzędnymi wszystkich statkół wtofa
-     */
-    public List<Wspolrzedne> getWspolrzedneStatkow()
-    {
-        return new ArrayList<Wspolrzedne>(statkiIWspolrzedne.values());
-    }
-
-    /**
-     * Zwraca mapę statków wraz z ich współrzędnymi.
-     * 
-     * @return statki wroga zmapowane ze swoimi współrzędnymi.
-     */
-    public Map<StatekWroga, Wspolrzedne> getStatkiOrazIchWspolrzedne()
-    {
-        return statkiIWspolrzedne;
-    }
-
-    /**
-     * Zwraca wymiary statku wroga.
-     * 
-     * @return wymiary statku wroga.
-     */
-    public Wymiary getWymiaryStatkuWroga()
-    {
-        return wymiaryStatku;
     }
 }

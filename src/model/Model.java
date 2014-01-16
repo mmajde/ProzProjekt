@@ -39,7 +39,7 @@ public class Model
     /**
      * Uruchamia główny silnik gry i zarządza zdarzeniami gry.
      * 
-     * @throws NullBlockingQueueException - jeśli kolejka blokująca nie została wcześniej utworzona
+     * @throws NullBlockingQueueException - jeśli kolejka blokująca nie została wcześniej utworzona.
      */
     public void dzialanieModelu() throws NullBlockingQueueException
     {

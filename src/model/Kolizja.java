@@ -22,9 +22,9 @@ public class Kolizja
     private List<StatekWroga> statkiWrogaDoUsuniecia;
     /** Przechowuje wszystkie obiekty typu Pocisk przeznaczone do usunięcia. */
     private List<Pocisk> pociskiDoUsuniecia;
-    /** Wymiary statku bohatera */
+    /** Wymiary statku bohatera. */
     private final Wymiary wymiaryStatkuBohatera;
-    /** Wymiary statku wroga */
+    /** Wymiary statku wroga. */
     private final Wymiary wymiaryStatkuWroga;
 
     /**
@@ -41,9 +41,9 @@ public class Kolizja
 
     /** Sprawdza kolizje pomiędzy statkiem bohatera, statkami wroga oraz pociskami bohatera.
      * 
-     * @param statkiWrogaIWspolrzedne - pary statków wroga wraz z ich współrzędnymi na mapie
-     * @param wspolrzedneBohatera - współrzędne statku bohatera
-     * @param pociski - lista pocisków w grze
+     * @param statkiWrogaIWspolrzedne - pary statków wroga wraz z ich współrzędnymi na mapie.
+     * @param wspolrzedneBohatera - współrzędne statku bohatera.
+     * @param pociski - lista pocisków w grze.
      */
     public void sprawdzKolizje(Map<StatekWroga, Wspolrzedne> statkiWrogaIWspolrzedne,
             Wspolrzedne wspolrzedneBohatera, List<Pocisk> pociski)
