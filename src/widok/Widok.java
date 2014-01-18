@@ -1,55 +1,62 @@
 package widok;
 
 import java.awt.Dimension;
-import java.awt.event.KeyEvent;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 import javax.swing.JFrame;
 
-public class Widok extends JFrame {
+/**
+ * Klasa Widok wzorca MVC.
+ * Inicjalizuje wyświetlany panel oraz tworzy pole bitwy.
+ * 
+ * @author Marek Majde.
+ *
+ */
+public class Widok extends JFrame
+{
+    /** Szerokość mapy. */
+    private final int SZEROKOSC = 600;
+    /** Wysokość mapy. */
+    private final int WYSOKOSC = 600;
+    /** Przechowuje rozmiar mapy. */
+    private final Dimension ROZMIAR = new Dimension(WYSOKOSC, SZEROKOSC);
+    /** Rysuje elementy w grze na mapie. */
+    private final PoleBitwy poleBitwy;
+    /** Nasłuchuje zdarzeń użytkownika z klawiatury. */
+    private final SluchaczZdarzenKlawiatury sluchaczZdarzenKlawiatury;
 
-	private final int SZEROKOSC = 600;
-	private final int WYSOKOSC = 600;
-	private final Dimension ROZMIAR = new Dimension(WYSOKOSC, SZEROKOSC);
-	
-	private PoleBitwy poleBitwy;
-	private SluchaczZdarzenKlawiatury sluchaczZdarzenKlawiatury;
-	public BlockingQueue<KeyEvent> kolejkaBlokujaca = new ArrayBlockingQueue<KeyEvent>(1);
-	
-	public Widok() {
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(ROZMIAR);
-		setTitle("Statki kosmiczne");
-		setResizable(false);
-		setLocationRelativeTo(null);
-		
-		dodajSluchaczaZdarzenKlawiatury(new SluchaczZdarzenKlawiatury());
-		stworzPoleBitwy();
-		
-		setVisible(true);
-	}
+    public Widok()
+    {
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(ROZMIAR);
+        setTitle("Statki kosmiczne");
+        setResizable(false);
+        setLocationRelativeTo(null);
 
-	public void stworzPoleBitwy() {
-		poleBitwy = new PoleBitwy();
-		add(poleBitwy);
-	}
-	
-	public PoleBitwy getPoleBitwy() {
-		return poleBitwy;
-	}
-	
-	public void dodajSluchaczaZdarzenKlawiatury(SluchaczZdarzenKlawiatury sluchaczZdarzenKlawiatury) {
-		this.sluchaczZdarzenKlawiatury = sluchaczZdarzenKlawiatury;
-		addKeyListener(sluchaczZdarzenKlawiatury);
-	}
+        this.sluchaczZdarzenKlawiatury = new SluchaczZdarzenKlawiatury();
+        this.poleBitwy = new PoleBitwy();
 
-	public SluchaczZdarzenKlawiatury getSluchaczZdarzenKlawiatury() {
-		return sluchaczZdarzenKlawiatury;
-	}
-	
-	public Dimension getRozmiar() {
-		return ROZMIAR;
-	}
-	
+        addKeyListener(sluchaczZdarzenKlawiatury);
+        add(poleBitwy);
+
+        setVisible(true);
+    }
+    
+    /**
+     * Zwraca pole bitwy, które udostępnia metody rysujące obiekty w grze.
+     * 
+     * @return pole bitwy.
+     */
+    public PoleBitwy getPoleBitwy()
+    {
+        return poleBitwy;
+    }
+
+    /** Zwraca rozmiar mapy.
+     * 
+     * @return rozmiar mapy.
+     */
+    public Dimension getRozmiar()
+    {
+        return ROZMIAR;
+    }
 }

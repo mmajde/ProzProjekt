@@ -3,9 +3,8 @@ package model;
 import java.awt.Dimension;
 
 import uzytkowe.Makieta;
-import uzytkowe.kolejkablokujaca.KolejkaBlokujaca;
-import wyjatki.NullBlockingQueueException;
-import zdarzenia.ZdarzenieGry;
+import uzytkowe.Przesuniecie;
+import uzytkowe.Wspolrzedne;
 
 /**
  * Główna klasa wzorca MVC.
@@ -15,10 +14,12 @@ import zdarzenia.ZdarzenieGry;
  */
 public class Model
 {
-    /** Zarządza grą. */
-    private final SilnikGry silnikGry;
-    /** Przechowuje strategie określonych zdarzeń w grze. */
-    private final Strateg strateg;
+    /** Zarządza kolizjami w grze. */
+    private final SilnikKolizji silnikKolizji;
+    /** Zarządza bohaterem i pociskami wystrzelonymi przez bohatera. */
+    private final SilnikBohatera silnikBohatera;
+    /** Zarządza wrogiem. */
+    private final SilnikWroga silnikWroga;
     /** Przechowuje współrzędne wszystkich obiektów na mapie. */
     private final Makieta makieta;
 
@@ -30,38 +31,18 @@ public class Model
     public Model(final Dimension rozmiar)
     {
         this.makieta = new Makieta(rozmiar);
-        SilnikWroga silnikWroga = new SilnikWroga(makieta);
-        SilnikBohatera silnikBohatera = new SilnikBohatera(makieta);
-        this.silnikGry = new SilnikGry(silnikWroga, silnikBohatera);
-        this.strateg = new Strateg(silnikBohatera);
-    }
-// do zmiany 
-    /**
-     * Uruchamia główny silnik gry i zarządza zdarzeniami gry.
-     * 
-     * @throws NullBlockingQueueException - jeśli kolejka blokująca nie została wcześniej utworzona.
-     */
-    public void dzialanieModelu() throws NullBlockingQueueException
-    {
-        silnikGry.dzialaj();
-        while (czyIstniejeZdarzenieWKolejce())
-        {
-            ZdarzenieGry nastepneZdarzenieGry = KolejkaBlokujaca.wezNastepneZdarzenieGry();
-            strateg.dzialaj(nastepneZdarzenieGry);
-        }
+        this.silnikWroga = new SilnikWroga(makieta);
+        this.silnikBohatera = new SilnikBohatera(makieta);
+        this.silnikKolizji = new SilnikKolizji(silnikWroga, silnikBohatera);
     }
 
-    // do zmiany
     /**
-     * @return
-     * 
-     * @throws NullBlockingQueueException
+     * Przesuwa bohatera na mapie.
      */
-    private boolean czyIstniejeZdarzenieWKolejce() throws NullBlockingQueueException
+    public void przesunBohatera(Przesuniecie przesuniecieBohatera)
     {
-        return !KolejkaBlokujaca.czyPusta();
+        silnikBohatera.przesunBohatera(przesuniecieBohatera);
     }
-
     /**
      * Zwraca makietę.
      * 
@@ -71,14 +52,33 @@ public class Model
     {
         return makieta;
     }
-
+    
     /**
-     * Sprawdza czy gra powinna się zakończyć.
-     * 
-     * @return True jeśli gra powinna się zakończyć. False w przecziwnym przypadku.
+     * Ustawia bohatera na makiecie.
      */
-    public boolean sprawdzCzyKoniecGry()
+    public void ustawBohateraNaMakiecie()
     {
-        return silnikGry.czyKoniec();
+        silnikBohatera.ustawBohateraNaMakiecie();
+    }
+    
+    /**
+     * Uruchamia wsyzstkie silniki (silnik wroga, silnik bohatera oraz silnik gry).
+     */
+    public void uruchomSilniki()
+    {
+        silnikKolizji.dzialaj();
+        silnikWroga.dzialaj();
+        silnikBohatera.dzialaj();
+    }
+    
+    /**
+     * Dodaje pociski wystrzelone przez bohatera.
+     */
+    public void dodajPocisk()
+    {
+        double x = silnikBohatera.getWspolrzedneStatkuBohatera().getX() + 20;
+        double y = silnikBohatera.getWspolrzedneStatkuBohatera().getY();
+
+        silnikBohatera.dodajPocisk(new Wspolrzedne(x, y), 3);
     }
 }

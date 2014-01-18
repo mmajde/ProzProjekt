@@ -1,102 +1,213 @@
 package kontroler;
 
-import java.util.logging.Logger;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.Timer;
 
 import model.Model;
 import uzytkowe.Makieta;
+import uzytkowe.Przesuniecie;
+import uzytkowe.kolejkablokujaca.KolejkaBlokujaca;
 import widok.Widok;
-import wyjatki.NullBlockingQueueException;
+import zdarzenia.KolejnyMomentZdarzenie;
+import zdarzenia.KoniecGryZdarzenie;
+import zdarzenia.WcisnietaSpacjaZdarzenie;
+import zdarzenia.WcisnietyPrzyciskWDolZdarzenie;
+import zdarzenia.WcisnietyPrzyciskWGoreZdarzenie;
+import zdarzenia.WcisnietyPrzyciskWLewoZdarzenie;
+import zdarzenia.WcisnietyPrzyciskWPrawoZdarzenie;
+import zdarzenia.ZdarzenieGry;
 
-public class Kontroler
+/**
+ * Klasa modelu MVC.
+ * 
+ * @author Marek Majde.
+ *
+ */
+public class Kontroler 
 {
+    /** Widok gry. */
+    private final Widok widok;
+    /** Obliczenia gry. */
+    private final Model model;
+    /** Mapa przechowująca strategie do określonych klas zdarzeń. */
+    private final Map<Class<? extends ZdarzenieGry>, Strategia> mapaStrategii;
+    /** Licznik informujący o kolejnym momencie. */
+    private final Timer licznikCzasu;
 
-    private final Logger LOG = Logger.getLogger("log");
-
-    private final long CZAS_CZEKANIA = 5;
-    private long czasPrzedObslugaGry;
-    private long czasPoObsludzeGry;
-
-    private Widok widok;
-    private Model model;
-
-    private boolean koniecGry;
-
+    /**
+     * Konstruuje widok, model oraz zarządza strategiami.
+     */
     public Kontroler()
     {
         this.widok = new Widok();
         this.model = new Model(widok.getRozmiar());
+        
+        this.mapaStrategii = new HashMap<Class<? extends ZdarzenieGry>, Strategia>();
+        organizujStrategie();
 
-        czasPrzedObslugaGry = 0;
-        czasPoObsludzeGry = 0;
-
-        koniecGry = false;
+        this.licznikCzasu = new Timer(10, new ActionListener() {
+          public void actionPerformed(final ActionEvent event) {
+            try {
+              KolejkaBlokujaca.wstawZdarzenieGry(new KolejnyMomentZdarzenie());
+            }
+            catch(InterruptedException | IllegalArgumentException  e) {
+              e.printStackTrace();
+            }  
+          }
+        });   
+        
+        licznikCzasu.start();
+        
+        try
+        {
+            KolejkaBlokujaca.wstawZdarzenieGry(new KolejnyMomentZdarzenie());
+        } catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
     }
 
-    public void uruchom()
+    /**
+     * Zarządza działaniem gry. Pobiera zdarzenia i znajduje odpowiednią strategię działania.
+     */
+    public void dzialanieGry()
     {
         while (true)
         {
-            czekaj();
-            ustawCzasPrzedPracaGry();
-            pracaGry();
-            ustawCzasPoPracyGry();
-            if (koniecGry)
+            ZdarzenieGry nastepneZdarzenieGry = KolejkaBlokujaca.wezNastepneZdarzenieGry();
+            if(nastepneZdarzenieGry != null) 
             {
-                return;
+                Strategia strategiaDzialania = mapaStrategii.get(nastepneZdarzenieGry.getClass());
+                if(strategiaDzialania != null)
+                {
+                    strategiaDzialania.dzialanie();
+                }
             }
         }
     }
 
-    public void pracaGry()
+    /**
+     * Tworzy wszystkie strategie w grze do obsługi zdarzeń.
+     */
+    public void organizujStrategie()
     {
-        try
-        {
-            model.dzialanieModelu();
-        } catch (NullBlockingQueueException e)
-        {
-            LOG.info("Kolejka blokująca nie zostałą utworzona.");
-        }
-        koniecGry = model.sprawdzCzyKoniecGry();
-        Makieta makieta = model.getMakieta();
-        widok.getPoleBitwy().rysujPoleBitwy(makieta);
+        mapaStrategii.put(
+                WcisnietyPrzyciskWGoreZdarzenie.class, new PrzesunBohateraWGore());
+        mapaStrategii.put(
+                WcisnietyPrzyciskWDolZdarzenie.class, new PrzesunBohateraWDol());
+        mapaStrategii.put(
+                WcisnietyPrzyciskWPrawoZdarzenie.class, new PrzesunBohateraWPrawo());
+        mapaStrategii.put(
+                WcisnietyPrzyciskWLewoZdarzenie.class, new PrzesunBohateraWLewo());
+        mapaStrategii.put(
+                WcisnietaSpacjaZdarzenie.class, new GenerujPocisk());
+        mapaStrategii.put(
+                KolejnyMomentZdarzenie.class, new UruchomSilniki());
+        mapaStrategii.put(
+                KoniecGryZdarzenie.class, new ZakonczGre());
     }
 
-    public void ustawCzasPoPracyGry()
+    /**
+     * Interfejs posiadający metodę realizującą określone strategie 
+     * w reakcji na dane zdarzenia.
+     * 
+     */
+    interface Strategia 
     {
-        czasPoObsludzeGry = System.currentTimeMillis();
+        /**
+         * Nadpisywana metoda. Każda klasa implementująca interfejs określa
+         * swoją strategię działania. 
+         */
+        public void dzialanie();
     }
-
-    public void ustawCzasPrzedPracaGry()
+    
+    /**
+     * Umożliwia przesunięcie bohatera w górę.
+     */
+    class PrzesunBohateraWGore implements Strategia
     {
-        czasPrzedObslugaGry = System.currentTimeMillis();
-    }
-
-    private void czekaj()
-    {
-        long roznica = czasPoObsludzeGry - czasPrzedObslugaGry;
-        if (roznica < 0)
+        @Override
+        public void dzialanie()
         {
-            throw new RuntimeException();
-        }
-
-        if (roznica < CZAS_CZEKANIA)
-        {
-            uspijWatek(roznica);
-        }
-    }
-
-    public void uspijWatek(long roznica)
-    {
-        try
-        {
-            Thread.sleep(CZAS_CZEKANIA - roznica);
-        } catch (InterruptedException e)
-        {
-            LOG.info("Wątek przerwany podczas uśpienia.");
-        } catch (IllegalArgumentException e)
-        {
-            throw new RuntimeException();
+            model.przesunBohatera(new Przesuniecie(3, 0, 0, 0));
         }
     }
+    
+    /**
+     * Umożliwia przesunięcie bohatera w dół.
+     */
+    class PrzesunBohateraWDol implements Strategia
+    {
+        @Override
+        public void dzialanie()
+        {
+            model.przesunBohatera(new Przesuniecie(0, 3, 0, 0));
+        }
+    }
+    
+    /**
+     * Umożliwia przesunięcie bohatera w prawo.
+     */
+    class PrzesunBohateraWPrawo implements Strategia
+    {
+        @Override
+        public void dzialanie()
+        {
+            model.przesunBohatera(new Przesuniecie(0, 0, 3, 0));
+        }
+    }
 
+    /**
+     * Umożliwia przesunięcie bohatera w lewo.
+     */
+    class PrzesunBohateraWLewo implements Strategia
+    {
+        @Override
+        public void dzialanie()
+        {
+            model.przesunBohatera(new Przesuniecie(0, 0, 0, 3));
+        }
+    }
+    
+    /**
+     * Uruchamia silnikiModelu. Reakcja na KolejnyMomentZdarzenie.
+     */
+    class UruchomSilniki implements Strategia
+    {
+        @Override 
+        public void dzialanie()
+        {
+            model.uruchomSilniki();
+            Makieta makieta = model.getMakieta();
+            widok.getPoleBitwy().rysujPoleBitwy(makieta);
+        }
+    }
+    
+    /**
+     * Generuje nowy pocisk.
+     */
+    class GenerujPocisk implements Strategia
+    {
+        @Override
+        public void dzialanie()
+        {
+            model.dodajPocisk();
+        }
+    }
+    
+    /**
+     * Kończy grę.
+     */
+    class ZakonczGre implements Strategia
+    {
+        @Override
+        public void dzialanie()
+        {
+            System.exit(0);
+        }
+    }
 }

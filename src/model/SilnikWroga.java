@@ -21,9 +21,9 @@ import uzytkowe.Wymiary;
 public class SilnikWroga
 {
     /** Określa maksymalną dopuszczalną liczbę statków na mapie. */
-    private final int MAX_LICZBA_STATKOW = 50;
+    private final int MAX_LICZBA_STATKOW = 15;
     /** Wartość o którą przesuwa się każdy statek wroga. */
-    private final double DLUGOSC_RUCHU = 0.5;
+    private final double DLUGOSC_RUCHU = 1;
     /** Szerokość statku na mapie. */
     private final double SZEROKOSC_STATKU = 30.0;
     /** Wysokość statku na mapie. */

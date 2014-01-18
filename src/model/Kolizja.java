@@ -8,6 +8,8 @@ import java.util.Map;
 import statek.StatekWroga;
 import uzytkowe.Wspolrzedne;
 import uzytkowe.Wymiary;
+import uzytkowe.kolejkablokujaca.KolejkaBlokujaca;
+import zdarzenia.KoniecGryZdarzenie;
 
 /**
  * Obsługa kolizji w grze. Znajdują się tutaj wszystkie metody potrzebne do sprawdzenia czy
@@ -51,8 +53,11 @@ public class Kolizja
         statkiWrogaDoUsuniecia.clear();
         pociskiDoUsuniecia.clear();
         
-        sprawdzKolizjeWrogaZBohaterem(statkiWrogaIWspolrzedne, wspolrzedneBohatera);
         sprawdzKolizjePociskowZWrogami(statkiWrogaIWspolrzedne, pociski);
+        if(sprawdzKolizjeWrogaZBohaterem(statkiWrogaIWspolrzedne, wspolrzedneBohatera) == true) 
+        {
+            koniecGry();
+        }
     }
     
     /**
@@ -218,5 +223,19 @@ public class Kolizja
                 (int) wspolrzedneStatkuWroga.getY(), (int) wymiaryStatkuWroga.getSzerokosc(),
                 (int) wymiaryStatkuWroga.getWysokosc());
         return obszar;
+    }
+    
+    /**
+     * Sprawdza czy gra z jakiegoś powodu powinna być zakończona.
+     */
+    private void koniecGry()
+    {
+        try
+        {
+            KolejkaBlokujaca.wstawZdarzenieGry(new KoniecGryZdarzenie());
+        } catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

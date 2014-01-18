@@ -11,9 +11,10 @@ import uzytkowe.Wspolrzedne;
 import uzytkowe.Wymiary;
 
 /**
- * Zarządza bohaterem w grze.
+ * Zarządza bohaterem w grze oraz wystrzelonymi przez bohatera pociskami.
+ * Przesuwa bohatera i pociski oraz ustawia te obiekty na makiecie.
  * 
- * @author Marek Majde
+ * @author Marek Majde.
  * 
  */
 public class SilnikBohatera
@@ -27,8 +28,6 @@ public class SilnikBohatera
     private final StatekBohatera statekBohatera;
     /** Współrzędne statku bohatera na mapie. */
     private Wspolrzedne wspolrzedneBohatera;
-    /** Przesunięcie bohatera w grze. */
-    private final Przesuniecie przesuniecieBohatera;
     /** Wymiary statku bohatera. */
     private final Wymiary wymiaryBohatera;
     /** Lista z pociskami wystrzelonymi przez bohatera. */
@@ -40,6 +39,11 @@ public class SilnikBohatera
     /** Wysokość mapy. */
     private final double wysokoscMapy;
 
+    /**
+     * Konstruuje silnik bohatera.
+     * 
+     * @param makieta - współrzędne obiektów umieszczane są na makiecie. 
+     */
     public SilnikBohatera(final Makieta makieta)
     {
         this.wymiaryBohatera = new Wymiary(SZEROKOSC_STATKU, DLUGOSC_STATKU);
@@ -48,20 +52,20 @@ public class SilnikBohatera
         this.szerokoscMapy = makieta.getRozmiar().getWidth();
         this.wysokoscMapy = makieta.getRozmiar().getHeight();
         this.wspolrzedneBohatera = dolnySrodekMapy();
-        this.przesuniecieBohatera = new Przesuniecie();
         this.pociski = new CopyOnWriteArrayList<Pocisk>();
     }
 
 
     /**
-     * Uruchamia silnik bohatera. Przesuwa bohatera oraz pociski przez niego wystrzelone.
+     * Uruchamia silnik bohatera. Przesuwa pociski wystrzelone przez bohatera.
      * Usuwa pociski za mapą oraz ustawia bohatera i pociski na makiecie. 
      */
     public void dzialaj()
     {
-        przesunBohateraIPociski();
+        przesunPociski();
         usunPociskiZaMapa();
-        ustawBohateraIPociskiNaMakiecie();
+        ustawBohateraNaMakiecie();
+        ustawPociskiNaMakiecie();
     }
 
     /**
@@ -127,16 +131,6 @@ public class SilnikBohatera
     }
 
     /**
-     * Zwraca przesunięcie bohatera.
-     * 
-     * @return przesunięcie bohatera.
-     */
-    public Przesuniecie getPrzesuniecieBohatera()
-    {
-        return przesuniecieBohatera;
-    }
-
-    /**
      * Zwraca statek bohatera.
      * 
      * @return statek bohatera.
@@ -156,6 +150,32 @@ public class SilnikBohatera
         return pociski;
     }
     
+    /**
+     * Przesuwa bohatera oraz wszystkie pociski.
+     */
+    public void przesunBohatera(Przesuniecie przesuniecieBohatera)
+    {
+        Wspolrzedne noweWspolrzedneBohatera = 
+                statekBohatera.przesun(wspolrzedneBohatera, przesuniecieBohatera);
+        if (czyBohaterNaMapie(noweWspolrzedneBohatera))
+        {
+            wspolrzedneBohatera = noweWspolrzedneBohatera;
+        }
+    }
+    
+    /**
+     * Przesuwa pociski na mapie.
+     */
+    public void przesunPociski()
+    {
+        for (Pocisk pocisk : pociski)
+        {
+            Wspolrzedne noweWspolrzednePocisku = 
+                    pocisk.przesun(pocisk.getWspolrzedne(), pocisk.getPrzesuniecie());
+            pocisk.setWspolrzedne(noweWspolrzednePocisku);
+        }
+    }
+
     /**
      * Dodaje współrzędne danego pocisku do listy ze wszystkimi współrzędnymi pocisków.
      * 
@@ -203,33 +223,20 @@ public class SilnikBohatera
     }
 
     /**
-	 * Ustawia bohatera oraz wszystkie pociski na makiecie.
+	 * Ustawia wszystkie pociski na makiecie.
 	 */
-    private void ustawBohateraIPociskiNaMakiecie()
+    public void ustawPociskiNaMakiecie()
     {
-        makieta.setWspolrzedneStatkuBohatera(wspolrzedneBohatera);
         makieta.setWspolrzednePociskow(getWspolrzednePociskow());
     }
-
+    
     /**
-	 * Przesuwa bohatera oraz wszystkie pociski.
-	 */
-    private void przesunBohateraIPociski()
-    {
-        Wspolrzedne noweWspolrzedneBohatera = 
-                statekBohatera.przesun(wspolrzedneBohatera, przesuniecieBohatera);
-        if (czyBohaterNaMapie(noweWspolrzedneBohatera))
-        {
-            wspolrzedneBohatera = noweWspolrzedneBohatera;
-        }
-        for (Pocisk pocisk : pociski)
-        {
-            Wspolrzedne noweWspolrzednePocisku = 
-                    pocisk.przesun(pocisk.getWspolrzedne(), pocisk.getPrzesuniecie());
-            pocisk.setWspolrzedne(noweWspolrzednePocisku);
-        }
+     * Ustawia bohatera na makiecie.
+     */
+    public void ustawBohateraNaMakiecie() {
+        makieta.setWspolrzedneStatkuBohatera(wspolrzedneBohatera);
     }
-
+    
     /**
      * Sprawdza czy nowe współrzędne bohatera znajdują się na mapie czy poza nią.
      * 
