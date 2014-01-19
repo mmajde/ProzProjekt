@@ -3,6 +3,7 @@ package widok;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /**
  * Klasa Widok wzorca MVC.
@@ -18,25 +19,34 @@ public class Widok extends JFrame
     /** Wysokość mapy. */
     private final int WYSOKOSC = 600;
     /** Przechowuje rozmiar mapy. */
-    private final Dimension ROZMIAR = new Dimension(WYSOKOSC, SZEROKOSC);
+    private final Dimension ROZMIAR;
     /** Rysuje elementy w grze na mapie. */
-    private final PoleBitwy poleBitwy;
+    private PoleBitwy poleBitwy;
     /** Nasłuchuje zdarzeń użytkownika z klawiatury. */
-    private final SluchaczZdarzenKlawiatury sluchaczZdarzenKlawiatury;
+    private SluchaczZdarzenKlawiatury sluchaczZdarzenKlawiatury;
 
+    /**
+     * Konstruuje widok, dodając panel z grą oraz słuchacza klawiatury.
+     */
     public Widok()
     {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run()
+            {
+                sluchaczZdarzenKlawiatury = new SluchaczZdarzenKlawiatury();
+                poleBitwy = new PoleBitwy();
+                add(poleBitwy);
+                addKeyListener(sluchaczZdarzenKlawiatury);
+            }
+        });
+        
+        this.ROZMIAR = new Dimension(WYSOKOSC, SZEROKOSC);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(ROZMIAR);
         setTitle("Statki kosmiczne");
         setResizable(false);
         setLocationRelativeTo(null);
-
-        this.sluchaczZdarzenKlawiatury = new SluchaczZdarzenKlawiatury();
-        this.poleBitwy = new PoleBitwy();
-
-        addKeyListener(sluchaczZdarzenKlawiatury);
-        add(poleBitwy);
 
         setVisible(true);
     }

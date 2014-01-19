@@ -5,12 +5,13 @@ package wyjatki;
  * 
  * @author Marek Majde.
  */
-public class NullBlockingQueueException extends RuntimeException {
-
-	/**
-	 * Konstruuje wyjątek z informacją o błędzie.
-	 */
-	public NullBlockingQueueException() {
-		super("Kolejka powinna być wcześniej utworzona metodą StworzKolejke.");
-	}
+public class NullBlockingQueueException extends RuntimeException
+{
+    /**
+     * Konstruuje wyjątek z informacją o błędzie.
+     */
+    public NullBlockingQueueException()
+    {
+        super("Kolejka powinna być wcześniej utworzona metodą StworzKolejke.");
+    }
 }

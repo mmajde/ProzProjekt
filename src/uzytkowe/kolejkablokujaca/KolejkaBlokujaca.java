@@ -17,9 +17,10 @@ public final class KolejkaBlokujaca
     private static final int ROZMIAR_KOLEJKI = 10;
     private static BlockingQueue<ZdarzenieGry> kolejkaBlokujaca;
 
-    private KolejkaBlokujaca()
-    {
-    }
+    /**
+     * Konstruktor prywatny.
+     */
+    private KolejkaBlokujaca() {}
 
     /** Tworzenie kolejki do obsługi zdarzeń z gry jeśli wcześniej nie była utworzona */
     public static synchronized void stworzKolejke()

@@ -3,6 +3,8 @@ package uzytkowe;
 import java.awt.Dimension;
 import java.util.List;
 
+import wyjatki.BadArgumentException;
+
 /**
  * Przechowuje współrzędne wszystkich obiektów znajdujących się na mapie.
  * Przechowuje także rozmiar mapy.
@@ -22,12 +24,16 @@ public class Makieta
     private List<Wspolrzedne> wspolrzednePociskow;
 
     /**
-     * Konstruuje makietę o określonym rozmiarze. 
+     * Konstruuje makietę o określonym rozmiarze. Rozmiar nie może być nullem.
      * 
-     * @param rozmiar - wielkość makiety.
+     * @param rozmiar - wielkość makiety. Nie może być nullem.
      */
-    public Makieta(Dimension rozmiar)
+    public Makieta(Dimension rozmiar) throws BadArgumentException
     {
+        if(rozmiar == null)
+        {
+            throw new BadArgumentException();
+        }
         this.rozmiar = rozmiar;
     }
 

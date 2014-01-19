@@ -1,5 +1,7 @@
 package uzytkowe;
 
+import wyjatki.BadArgumentException;
+
 /**
  * Przechowuje wymiary danego obiektu w grze (szerokość oraz wysokość).
  * 
@@ -20,14 +22,13 @@ public class Wymiary
      * @param szerokosc - szerokosc danego obiektu.
      * @param wysokosc - wysokosc danego obiektu.
      * 
-     * @throws IllegalArgumentException szerokosc lub wysokosc jest ujemna.
+     * @throws BadArgumentException jeśli szerokosc lub wysokosc sa mniejsze od zera.
      */
-    // zmienic na moj wyjatek
-    public Wymiary(double szerokosc, double wysokosc) throws IllegalArgumentException
+    public Wymiary(double szerokosc, double wysokosc) throws BadArgumentException
     {
         if (szerokosc < 0 || wysokosc < 0)
         {
-            throw new IllegalArgumentException();
+            throw new BadArgumentException();
         }
         this.szerokosc = szerokosc;
         this.wysokosc = wysokosc;

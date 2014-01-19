@@ -61,16 +61,8 @@ public class Kontroler
         });   
         
         licznikCzasu.start();
-        
-        try
-        {
-            KolejkaBlokujaca.wstawZdarzenieGry(new KolejnyMomentZdarzenie());
-        } catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
     }
-
+    
     /**
      * Zarządza działaniem gry. Pobiera zdarzenia i znajduje odpowiednią strategię działania.
      */

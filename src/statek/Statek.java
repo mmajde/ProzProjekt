@@ -2,6 +2,7 @@ package statek;
 
 import model.ObiektGry;
 import uzytkowe.Wymiary;
+import wyjatki.BadArgumentException;
 
 /**
  * Nadrzędna klasa dla wszystkich statków grze.
@@ -18,8 +19,12 @@ public class Statek extends ObiektGry
      * 
      * @param wymiary - określa szerokość oraz wysokość każdego statku.
      */
-    public Statek(Wymiary wymiary)
+    public Statek(Wymiary wymiary) throws BadArgumentException
     {
+        if(wymiary == null)
+        {
+            throw new BadArgumentException();
+        }
         this.wymiary = wymiary;
     }
 
