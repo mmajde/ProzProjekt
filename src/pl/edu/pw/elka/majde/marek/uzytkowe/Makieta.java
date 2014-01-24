@@ -3,6 +3,7 @@ package pl.edu.pw.elka.majde.marek.uzytkowe;
 import java.awt.Dimension;
 import java.util.List;
 
+import pl.edu.pw.elka.majde.marek.ustawienia.Ustawienia;
 import pl.edu.pw.elka.majde.marek.wyjatki.ZlyArgumentException;
 
 /**
@@ -25,18 +26,10 @@ public class Makieta
 
     /**
      * Konstruuje makietę o określonym rozmiarze. Rozmiar nie może być nullem.
-     * 
-     * @param rozmiar - wielkość makiety. Nie może być nullem.
-     * 
-     * @throws ZlyArgumentException jeśli rozmiar jest nullem.
      */
-    public Makieta(Dimension rozmiar) throws ZlyArgumentException
+    public Makieta() throws ZlyArgumentException
     {
-        if(rozmiar == null)
-        {
-            throw new ZlyArgumentException();
-        }
-        this.rozmiar = rozmiar;
+        this.rozmiar = Ustawienia.rozmiarPolaGry;
     }
 
     /**

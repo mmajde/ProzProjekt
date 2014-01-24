@@ -1,6 +1,5 @@
 package pl.edu.pw.elka.majde.marek.widok;
 
-import java.awt.Dimension;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.BlockingQueue;
 
@@ -26,11 +25,10 @@ public class Widok
      * Konstruuje widok, dodając panel z grą oraz słuchacza klawiatury.
      * 
      * @param kolejkaBlokujaca - wstawiane są do niej zdarzenia gry.
-     * @param rozmiar - rozmiar mapy w grze.
      */
-    public Widok(final BlockingQueue<GameEvent> kolejkaBlokujaca, final Dimension rozmiar)
+    public Widok(final BlockingQueue<GameEvent> kolejkaBlokujaca)
     {
-        panelGry = new PanelGry(kolejkaBlokujaca, rozmiar);  
+        panelGry = new PanelGry(kolejkaBlokujaca);  
     }
     
     /**

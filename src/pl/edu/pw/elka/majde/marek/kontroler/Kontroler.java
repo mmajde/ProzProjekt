@@ -1,6 +1,5 @@
 package pl.edu.pw.elka.majde.marek.kontroler;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -33,22 +32,15 @@ public class Kontroler
     private final Timer licznikCzasu;
     /** Kolejka blokująca przechowująca zdarzenia gry. */
     private final BlockingQueue<GameEvent> kolejkaBlokujaca;
-    /** Szerokość mapy. */
-    private final int szerokosc_mapy = 600;
-    /** Wysokość mapy. */
-    private final int wysokosc_mapy = 600;
-    /** Przechowuje rozmiar mapy. */
-    private final Dimension rozmiar;
 
     /**
      * Konstruuje widok, model oraz zarządza strategiami.
      */
     public Kontroler()
     {
-        this.rozmiar = new Dimension(wysokosc_mapy, szerokosc_mapy);
         this.kolejkaBlokujaca = new ArrayBlockingQueue<GameEvent>(10);
-        this.widok = new Widok(kolejkaBlokujaca, rozmiar);
-        this.model = new Model(rozmiar);
+        this.widok = new Widok(kolejkaBlokujaca);
+        this.model = new Model();
         this.mapaStrategii = new HashMap<Class<? extends GameEvent>, Strategia>();
         organizujStrategie();
 

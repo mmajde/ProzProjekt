@@ -189,7 +189,8 @@ public class SilnikBohatera
     /**
      * Ustawia bohatera na makiecie.
      */
-    public void ustawBohateraNaMakiecie() {
+    public void ustawBohateraNaMakiecie() 
+    {
         makieta.setWspolrzedneStatkuBohatera(wspolrzedneBohatera);
     }
     

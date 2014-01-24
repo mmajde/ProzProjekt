@@ -1,7 +1,5 @@
 package pl.edu.pw.elka.majde.marek.model;
 
-import java.awt.Dimension;
-
 import pl.edu.pw.elka.majde.marek.model.silniki.SilnikBohatera;
 import pl.edu.pw.elka.majde.marek.model.silniki.SilnikKolizji;
 import pl.edu.pw.elka.majde.marek.model.silniki.SilnikWroga;
@@ -31,12 +29,10 @@ public class Model
 
     /**
      * Konstuktor z rozmiarem wymaganym do zainicjalizowania makiety.
-     * 
-     * @param rozmiar - rozmiar określąjący wielkość makiety.
      */
-    public Model(final Dimension rozmiar)
+    public Model()
     {
-        this.makieta = new Makieta(rozmiar);
+        this.makieta = new Makieta();
         this.silnikWroga = new SilnikWroga(makieta);
         this.silnikBohatera = new SilnikBohatera(makieta);
         this.silnikKolizji = new SilnikKolizji(silnikWroga, silnikBohatera);

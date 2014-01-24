@@ -1,10 +1,10 @@
 package pl.edu.pw.elka.majde.marek.widok;
 
-import java.awt.Dimension;
 import java.util.concurrent.BlockingQueue;
 
 import javax.swing.JFrame;
 
+import pl.edu.pw.elka.majde.marek.ustawienia.Ustawienia;
 import pl.edu.pw.elka.majde.marek.uzytkowe.Makieta;
 import pl.edu.pw.elka.majde.marek.zdarzenia.GameEvent;
 
@@ -24,7 +24,7 @@ public class PanelGry extends JFrame {
     /**
      * Konstruuje panel gry. Panel gry zarządza rysowaniem obiektów na polu bitwy. 
      */
-    public PanelGry(final BlockingQueue<GameEvent> kolejkaBlokujaca, final Dimension rozmiar) 
+    public PanelGry(final BlockingQueue<GameEvent> kolejkaBlokujaca) 
     {
         this.sluchaczZdarzenKlawiatury = new SluchaczZdarzenKlawiatury(kolejkaBlokujaca);
         this.poleBitwy = new PoleBitwy();
@@ -32,7 +32,7 @@ public class PanelGry extends JFrame {
         add(poleBitwy);
         addKeyListener(sluchaczZdarzenKlawiatury); 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(rozmiar);
+        setSize(Ustawienia.rozmiarPolaGry);
         setTitle("Statki kosmiczne");
         setResizable(false);
         setLocationRelativeTo(null);
